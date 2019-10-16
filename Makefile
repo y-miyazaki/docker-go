@@ -34,11 +34,14 @@ else
 GIT_DOMAIN=github.com
 endif
 
+# work directory
+ifndef GIT_URL
+$(error make build must set GIT_URL for make)
+endif
+
 # SSH_FILE
-ifdef SSH_FILE
-SSH_FILE=$(SSH_FILE)
-else
-SSH_FILE=/Users/yoshiaki_miyazaki/.ssh/id_rsa
+ifndef SSH_FILE
+$(error make build must set SSH_FILE for make)
 endif
 
 # git domain
@@ -49,7 +52,7 @@ BRANCH=master
 endif
 
 build: check-build
-	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_FILE) --rm -f docker/build/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg BRANCH=$(BRANCH) -t $(APP_IMAGE) .
+	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_FILE) --rm -f docker/build/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_URL=$(GIT_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg BRANCH=$(BRANCH) -t $(APP_IMAGE) .
 
 test-build: check-build
 	docker build --rm -f docker/test/Dockerfile --build-arg WORKDIR=$(WORKDIR)  -t $(APP_IMAGE)-test .
