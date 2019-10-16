@@ -1,0 +1,58 @@
+#!/bin/bash
+# ------------------------------------------------------------------------
+# go static analysis
+# ------------------------------------------------------------------------
+set -e
+
+BASEPATH=`dirname $0`
+ERR_FLG=0
+
+# echo "# ------------------------------------------------------------------------"
+# echo "# check go lint..."
+# echo "# ------------------------------------------------------------------------"
+# #    --out-format checkstyle \
+# golangci-lint run \
+#     --issues-exit-code 0 \
+#     --disable-all \
+#     -E errcheck \
+#     -E ineffassign \
+#     -E interfacer \
+#     -E unconvert \
+#     -E misspell \
+#     -E unparam \
+#     -E nakedret \
+#     -E prealloc \
+#     ./...
+
+echo "# ------------------------------------------------------------------------"
+echo "# check go static analytics..."
+echo "# ------------------------------------------------------------------------"
+    # --out-format checkstyle \
+golangci-lint run --tests=false \
+    --issues-exit-code 0 \
+    --disable-all \
+    -c $BASEPATH/config/base.golangci.yml \
+    ./...
+if [ $? -eq 0 ]; then
+    ERR_FLG=1
+fi
+echo "# ------------------------------------------------------------------------"
+echo "# check go duplication/const/cyclomatics..."
+echo "# ------------------------------------------------------------------------"
+    # --out-format checkstyle \
+golangci-lint run --tests=false \
+    --issues-exit-code 0 \
+    --disable-all \
+    -c $BASEPATH/config/check.golangci.yml \
+    ./...
+
+echo "# ------------------------------------------------------------------------"
+echo "# result"
+echo "# ------------------------------------------------------------------------"
+if [ $ERR_FLG -eq 1 ]; then
+    echo "Static analysis failed..."
+    exit 1
+else
+    echo "Static analysis successed..."
+    exit 1
+fi

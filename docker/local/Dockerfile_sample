@@ -1,0 +1,6 @@
+FROM golang:1.12.7-alpine
+
+WORKDIR /go/src/workspace.com/user/application
+ADD main.go /go/src/workspace.com/user/application
+
+CMD ["./main"]
