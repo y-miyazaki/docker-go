@@ -47,6 +47,7 @@ RUN apk --no-cache add make git zip bash openssh curl gcc && \
     # Cobertura format for Azure DevOps
     github.com/axw/gocov/... \
     github.com/AlekSi/gocov-xml \
+    # fresh for go continuous deploy
     github.com/pilu/fresh 2>&1
 
 # ssh dicrectory

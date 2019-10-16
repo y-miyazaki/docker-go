@@ -9,31 +9,53 @@ TAG=latest
 # arguments
 #--------------------------------------------------------------
 ifdef FROM_PORT
-	FROM_PORT=$(FROM_PORT)
+FROM_PORT=$(FROM_PORT)
 else
-	FROM_PORT=8080
+FROM_PORT=8080
 endif
 ifdef TO_PORT
-	TO_PORT=$(TO_PORT)
+TO_PORT=$(TO_PORT)
 else
-	TO_PORT=8080
+TO_PORT=8080
 endif
 #--------------------------------------------------------------
 # make commands
 #--------------------------------------------------------------
 check-build:
+# work directory
 ifndef WORKDIR
-	$(error make build must set WORKDIR for make)
+$(error make build must set WORKDIR for make)
+endif
+
+# git domain
+ifdef GIT_DOMAIN
+GIT_DOMAIN=$(GIT_DOMAIN)
+else
+GIT_DOMAIN=github.com
+endif
+
+# SSH_FILE
+ifdef SSH_FILE
+SSH_FILE=$(SSH_FILE)
+else
+SSH_FILE=/Users/yoshiaki_miyazaki/.ssh/id_rsa
+endif
+
+# git domain
+ifdef BRANCH
+BRANCH=$(BRANCH)
+else
+BRANCH=master
 endif
 
 build: check-build
-	docker build --rm -f docker/build/Dockerfile --build-arg WORKDIR=$(WORKDIR)  -t $(APP_IMAGE) .
+	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_FILE) --rm -f docker/build/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg BRANCH=$(BRANCH) -t $(APP_IMAGE) .
 
 test-build: check-build
-	docker build --rm -f docker/build/Test.Dockerfile --build-arg WORKDIR=$(WORKDIR)  -t $(APP_IMAGE) .
+	docker build --rm -f docker/test/Dockerfile --build-arg WORKDIR=$(WORKDIR)  -t $(APP_IMAGE)-test .
 
 local-build: check-build
-	docker build --rm -f docker/local/Dockerfile --build-arg WORKDIR=$(WORKDIR)  -t $(APP_IMAGE) .
+	docker build --rm -f docker/local/Dockerfile --build-arg WORKDIR=$(WORKDIR) -t $(APP_IMAGE)-local .
 
 check-run:
 ifndef FROM_MOUNT
@@ -44,7 +66,7 @@ ifndef TO_MOUNT
 endif
 
 run: check-run
-	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) -v $(FROM_MOUNT):$(TO_MOUNT): --name $(APP_CONT) $(APP_IMAGE):$(TAG)
+	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) -v $(FROM_MOUNT):$(TO_MOUNT) --name $(APP_CONT) $(APP_IMAGE):$(TAG)
 
 check-aws:
 	PROFILE=--profile $(PROFILE)

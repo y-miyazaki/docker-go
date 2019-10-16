@@ -7,23 +7,6 @@ set -e
 BASEPATH=`dirname $0`
 ERR_FLG=0
 
-# echo "# ------------------------------------------------------------------------"
-# echo "# check go lint..."
-# echo "# ------------------------------------------------------------------------"
-# #    --out-format checkstyle \
-# golangci-lint run \
-#     --issues-exit-code 0 \
-#     --disable-all \
-#     -E errcheck \
-#     -E ineffassign \
-#     -E interfacer \
-#     -E unconvert \
-#     -E misspell \
-#     -E unparam \
-#     -E nakedret \
-#     -E prealloc \
-#     ./...
-
 echo "# ------------------------------------------------------------------------"
 echo "# check go static analytics..."
 echo "# ------------------------------------------------------------------------"
@@ -54,5 +37,5 @@ if [ $ERR_FLG -eq 1 ]; then
     exit 1
 else
     echo "Static analysis successed..."
-    exit 1
+    exit 0
 fi
