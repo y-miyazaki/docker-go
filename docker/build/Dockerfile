@@ -1,5 +1,8 @@
 # syntax = docker/dockerfile:experimental
-FROM golang:1.13.1-alpine
+#--------------------------------------------------------------
+# build image
+#--------------------------------------------------------------
+FROM golang:1.13.1-alpine AS build
 
 #--------------------------------------------------------------
 # ARG
@@ -7,6 +10,7 @@ FROM golang:1.13.1-alpine
 ARG GIT_DOMAIN
 ARG WORKDIR
 ARG BRANCH
+ARG APP="docker-golang"
 
 #--------------------------------------------------------------
 # ENV
@@ -33,5 +37,25 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     dep ensure -vendor-only=true && \
     go build
 
+#--------------------------------------------------------------
+# multi-stage image
+#--------------------------------------------------------------
+FROM alpine:3.10.2
+
+#--------------------------------------------------------------
+# ARG
+#--------------------------------------------------------------
+ARG WORKDIR
+ARG APP="docker-golang"
+ENV APP ${APP}
+
+COPY --from=build ${WORKDIR}/${APP} /${APP}
+
+RUN mkdir -p ${WORKDIR} && \
+    chmod 775 /${APP} && \
+    mv /${APP} ${WORKDIR}/main
+
+WORKDIR ${WORKDIR}
+
 ENTRYPOINT []
-CMD ["./docker-golang"]
+CMD ["./main"]
