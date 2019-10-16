@@ -51,7 +51,13 @@ RUN apk --no-cache add make git zip bash openssh curl gcc && \
     github.com/pilu/fresh 2>&1
 
 # ssh dicrectory
-RUN mkdir -p /root/.ssh
+RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
+    echo "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n\tIdentityFile /root/.ssh/id_rsa\n" >> /root/.ssh/config && \
+    ssh-keyscan -H ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
+    git config --global url."git@${GIT_DOMAIN}:".insteadOf "https://${GIT_DOMAIN}/" && \
+    # clone/dep/build
+    git clone -b ${BRANCH} ${GIT_URL} . && \
+    dep ensure -vendor-only=true && \
 
 # setting shells
 ADD ./shell /shell
@@ -60,4 +66,4 @@ mv /shell/* /usr/local/bin/ && \
 rm -rf /shell
 
 ENTRYPOINT []
-CMD ["/usr/local/bin/cmd"]
+CMD ["gostaticanalysis"]

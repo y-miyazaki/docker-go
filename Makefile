@@ -21,52 +21,60 @@ endif
 #--------------------------------------------------------------
 # make commands
 #--------------------------------------------------------------
+
 check-build:
-# work directory
-ifndef WORKDIR
-$(error make build must set WORKDIR for make)
-endif
-
-# git domain
-ifdef GIT_DOMAIN
-GIT_DOMAIN=$(GIT_DOMAIN)
-else
-GIT_DOMAIN=github.com
-endif
-
-# work directory
-ifndef GIT_URL
-$(error make build must set GIT_URL for make)
-endif
-
-# SSH_FILE
-ifndef SSH_FILE
-$(error make build must set SSH_FILE for make)
-endif
-
-# git domain
-ifdef BRANCH
-BRANCH=$(BRANCH)
-else
-BRANCH=master
-endif
+	# work directory
+	ifndef WORKDIR
+	$(error make build must set WORKDIR for make)
+	endif
+	# git domain
+	ifdef GIT_DOMAIN
+	GIT_DOMAIN=$(GIT_DOMAIN)
+	else
+	GIT_DOMAIN=github.com
+	endif
+	# work directory
+	ifndef GIT_URL
+	$(error make build must set GIT_URL for make)
+	endif
+	# SSH_FILE
+	ifndef SSH_FILE
+	$(error make build must set SSH_FILE for make)
+	endif
+	# git domain
+	ifdef BRANCH
+	BRANCH=$(BRANCH)
+	else
+	BRANCH=master
+	endif
 
 build: check-build
 	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_FILE) --rm -f docker/build/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_URL=$(GIT_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg BRANCH=$(BRANCH) -t $(APP_IMAGE) .
 
 test-build: check-build
-	docker build --rm -f docker/test/Dockerfile --build-arg WORKDIR=$(WORKDIR)  -t $(APP_IMAGE)-test .
+	docker build --rm -f docker/test/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg SSH_KEY=$(SSH_KEY) -t $(APP_IMAGE)-test .
 
-local-build: check-build
-	docker build --rm -f docker/local/Dockerfile --build-arg WORKDIR=$(WORKDIR) -t $(APP_IMAGE)-local .
+check-build-local:
+	# work directory
+	ifndef WORKDIR
+	$(error make build must set WORKDIR for make)
+	endif
+	ifdef SSH_KEY_PATH
+		SSH_KEY="$$(cat $(SSH_KEY_PATH))"
+	else
+		SSH_KEY="$$(cat ~/.ssh/id_rsa)"
+	endif
+
+build-local: check-build-local
+	docker build --rm -f docker/local/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg SSH_KEY=$(SSH_KEY) -t $(APP_IMAGE)-local .
 
 check-run:
-ifndef FROM_MOUNT
-	$(error make run must set FROM_MOUNT for make)
-endif
-ifndef TO_MOUNT
-	$(error make run must set TO_MOUNT for make)
-endif
+	ifndef FROM_MOUNT
+		$(error make run must set FROM_MOUNT for make)
+	endif
+	ifndef TO_MOUNT
+		$(error make run must set TO_MOUNT for make)
+	endif
 
 run: check-run
 	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) -v $(FROM_MOUNT):$(TO_MOUNT) --name $(APP_CONT) $(APP_IMAGE):$(TAG)
