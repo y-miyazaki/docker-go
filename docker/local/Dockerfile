@@ -1,3 +1,6 @@
+#--------------------------------------------------------------
+# build image
+#--------------------------------------------------------------
 FROM golang:1.13.1-alpine
 
 #--------------------------------------------------------------
@@ -53,15 +56,14 @@ RUN apk --no-cache add make git zip bash openssh curl gcc && \
     github.com/pilu/fresh 2>&1
 
 # ssh dicrectory
-RUN echo "$SSH_KEY"
 RUN mkdir -p /root/.ssh && \
     echo "$SSH_KEY" > /root/.ssh/id_rsa && \
     chmod 0600 /root/.ssh/id_rsa && \
-    eval `ssh-agent` && \
+    eval `ssh-agent -s` && \
     ssh-add /root/.ssh/id_rsa && \
     ssh-keyscan -H ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
     echo "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n\tIdentityFile /root/.ssh/id_rsa\n" >> /root/.ssh/config && \
-    git config --global url."git@${GIT_DOMAIN}:".insteadOf "https://${GIT_DOMAIN}/" && \
+    git config --global url."git@${GIT_DOMAIN}:".insteadOf "https://${GIT_DOMAIN}/"
 
 # setting shells
 ADD ./shell /shell
@@ -70,4 +72,4 @@ mv /shell/* /usr/local/bin/ && \
 rm -rf /shell
 
 ENTRYPOINT []
-CMD ["fresh"]
+CMD ["/usr/local/bin/cmd"]

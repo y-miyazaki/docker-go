@@ -4,8 +4,20 @@
 # ------------------------------------------------------------------------
 set -e
 
+# ------------------------------------------------------------------------
+# variables
+# ------------------------------------------------------------------------
+# base path
 BASEPATH=`dirname $0`
+# error flag
 ERR_FLG=0
+# check go source directory
+DIR=${1:-.}
+if [ -z $DIR ]; then
+    cd $DIR
+fi
+# output coverage directory
+COVER_DIR=${2:-coverage}
 
 echo "# ------------------------------------------------------------------------"
 echo "# check go static analytics..."
@@ -28,6 +40,14 @@ golangci-lint run --tests=false \
     --disable-all \
     -c $BASEPATH/config/check.golangci.yml \
     ./...
+
+echo "# ------------------------------------------------------------------------"
+echo "# go test..."
+echo "# ------------------------------------------------------------------------"
+mkdir -p $COVER_DIR
+go test $(go list ./... | grep -v /vendor/) -coverprofile=$COVER_DIR/coverage.out
+go tool cover -html=$COVER_DIR/coverage.out -o $COVER_DIR/coverage.html
+gocover-cobertura < $COVER_DIR/coverage.out > $COVER_DIR/coverage_cobertura.xml
 
 echo "# ------------------------------------------------------------------------"
 echo "# result"

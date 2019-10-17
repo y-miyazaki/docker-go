@@ -8,76 +8,45 @@ TAG=latest
 #--------------------------------------------------------------
 # arguments
 #--------------------------------------------------------------
-ifdef FROM_PORT
-FROM_PORT=$(FROM_PORT)
-else
-FROM_PORT=8080
-endif
-ifdef TO_PORT
-TO_PORT=$(TO_PORT)
-else
-TO_PORT=8080
-endif
+# container from port
+FROM_PORT?=8080
+# container to port
+TO_PORT?=8080
+# git clone branch
+GIT_BRANCH?=master
+# ssh private key path
+SSH_KEY_PATH?=~/.ssh/id_rsa
+# ssh private key
+SSH_KEY?="$$(cat $(SSH_KEY_PATH))"
+# git domain for private repository
+GIT_DOMAIN?=github.com
+# from mount
+FROM_MOUNT?=$(shell echo $(PWD))
+# to mount
+
 #--------------------------------------------------------------
 # make commands
 #--------------------------------------------------------------
+aa:
+	@echo $(SSH_KEY_PATH)
 
-check-build:
-	# work directory
-	ifndef WORKDIR
-	$(error make build must set WORKDIR for make)
-	endif
-	# git domain
-	ifdef GIT_DOMAIN
-	GIT_DOMAIN=$(GIT_DOMAIN)
-	else
-	GIT_DOMAIN=github.com
-	endif
-	# work directory
-	ifndef GIT_URL
-	$(error make build must set GIT_URL for make)
-	endif
-	# SSH_FILE
-	ifndef SSH_FILE
-	$(error make build must set SSH_FILE for make)
-	endif
-	# git domain
-	ifdef BRANCH
-	BRANCH=$(BRANCH)
-	else
-	BRANCH=master
-	endif
+build:
+	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/build/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) -t $(APP_IMAGE) .
 
-build: check-build
-	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_FILE) --rm -f docker/build/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_URL=$(GIT_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg BRANCH=$(BRANCH) -t $(APP_IMAGE) .
+build-test:
+	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/test/Dockerfile  --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) -t $(APP_IMAGE)-test .
 
-test-build: check-build
-	docker build --rm -f docker/test/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg SSH_KEY=$(SSH_KEY) -t $(APP_IMAGE)-test .
-
-check-build-local:
-	# work directory
-	ifndef WORKDIR
-	$(error make build must set WORKDIR for make)
-	endif
-	ifdef SSH_KEY_PATH
-		SSH_KEY="$$(cat $(SSH_KEY_PATH))"
-	else
-		SSH_KEY="$$(cat ~/.ssh/id_rsa)"
-	endif
-
-build-local: check-build-local
+build-local:
 	docker build --rm -f docker/local/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg SSH_KEY=$(SSH_KEY) -t $(APP_IMAGE)-local .
 
-check-run:
-	ifndef FROM_MOUNT
-		$(error make run must set FROM_MOUNT for make)
-	endif
-	ifndef TO_MOUNT
-		$(error make run must set TO_MOUNT for make)
-	endif
+run:
+	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) --name $(APP_CONT) $(APP_IMAGE):$(TAG)
 
-run: check-run
-	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) -v $(FROM_MOUNT):$(TO_MOUNT) --name $(APP_CONT) $(APP_IMAGE):$(TAG)
+run-test:
+	docker run --rm -d --name $(APP_CONT)-test $(APP_IMAGE)-test:$(TAG)
+
+run-local:
+	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) -v $(FROM_MOUNT):$(TO_MOUNT) --name $(APP_CONT)-local $(APP_IMAGE)-local:$(TAG)
 
 check-aws:
 	PROFILE=--profile $(PROFILE)

@@ -8,16 +8,17 @@ FROM golang:1.13.1-alpine AS build
 # ARG
 #--------------------------------------------------------------
 ARG GIT_DOMAIN
-ARG GIT_URL
+ARG GIT_CLONE_URL
+ARG GIT_BRANCH
 ARG WORKDIR
-ARG BRANCH
 ARG APP="docker-golang"
 
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
-# for go test
-ENV CGO_ENABLED 0
+ENV CGO_ENABLED=0
+ENV GOOS=linux
+ENV GOARCH=amd64
 
 #--------------------------------------------------------------
 # workdir
@@ -34,7 +35,7 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     ssh-keyscan -H ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
     git config --global url."git@${GIT_DOMAIN}:".insteadOf "https://${GIT_DOMAIN}/" && \
     # clone/dep/build
-    git clone -b ${BRANCH} ${GIT_URL} . && \
+    git clone -b ${GIT_BRANCH} ${GIT_CLONE_URL} . && \
     dep ensure -vendor-only=true && \
     go build
 
