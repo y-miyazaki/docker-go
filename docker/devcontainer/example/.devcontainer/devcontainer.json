@@ -1,0 +1,18 @@
+{
+    "dockerFile": "../../Dockerfile",
+    "settings": {
+      "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": ["esbenp.prettier-vscode", "ms-vscode.go"],
+    "runArgs": [
+      "-v",
+      "/workspace/docker-golang:/go/src/github.com/y-miyazaki/docker-golang",
+      "-v",
+      "${env:HOME}/.ssh/id_rsa:/root/.ssh/id_rsa",
+      "--env-file=.env",
+      "--name",
+      "app-local"
+    ],
+    "workspaceFolder": "/go/src/github.com/y-miyazaki/docker-golang",
+    "overrideCommand": false
+}

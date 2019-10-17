@@ -1,0 +1,11 @@
+#!/bin/bash
+# ------------------------------------------------------------------------
+# Docker CMD
+# ------------------------------------------------------------------------
+# SSH for private repository
+ssh-keyscan ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
+echo -e "[url \"git@${GIT_DOMAIN}:\"]\n\tinsteadOf = https://${GIT_DOMAIN}/" >> /root/.gitconfig && \
+echo -e "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
+
+# keep container.
+tail -f /dev/null

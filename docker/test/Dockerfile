@@ -16,7 +16,7 @@ ARG WORKDIR
 # ENV
 #--------------------------------------------------------------
 # for go test
-ENV CGO_ENABLED 1
+ENV CGO_ENABLED 0
 
 #--------------------------------------------------------------
 # workdir
@@ -47,14 +47,13 @@ RUN apk --no-cache add make git zip bash openssh curl gcc \
     # golang.org/x/lint/golint \
     # golang.org/x/tools/cmd/gopls \
     # github.com/alecthomas/gometalinter \
-    honnef.co/go/tools/... \
+    # honnef.co/go/tools/... \
     github.com/golangci/golangci-lint/cmd/golangci-lint \
     # github.com/mgechev/revive \
     # github.com/derekparker/delve/cmd/dlv \
-    # Coverage Tools
-    # Cobertura format for Azure DevOps
-    # github.com/axw/gocov/... \
-    # github.com/AlekSi/gocov-xml \
+    # go swagger tool
+    go get -u github.com/go-swagger/go-swagger/cmd/swagger \
+    # Coverage outputs covertura format.
     github.com/t-yuki/gocover-cobertura  2>&1
     # fresh for go continuous deploy
     # github.com/pilu/fresh 2>&1

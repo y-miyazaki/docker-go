@@ -40,12 +40,15 @@ build-local:
 	docker build --rm -f docker/local/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg SSH_KEY=$(SSH_KEY) -t $(APP_IMAGE)-local .
 
 run:
+	-docker stop $(APP_CONT)
 	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) --name $(APP_CONT) $(APP_IMAGE):$(TAG)
 
 run-test:
+	-docker stop $(APP_CONT)-test
 	docker run --rm -d --name $(APP_CONT)-test $(APP_IMAGE)-test:$(TAG)
 
 run-local:
+	-docker stop $(APP_CONT)-local
 	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) -v $(FROM_MOUNT):$(TO_MOUNT) --name $(APP_CONT)-local $(APP_IMAGE)-local:$(TAG)
 
 check-aws:

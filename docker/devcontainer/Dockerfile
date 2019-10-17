@@ -5,10 +5,9 @@ FROM golang:1.13.1-alpine
 
 #--------------------------------------------------------------
 # ARG
+# you need to change WORKDIR for application.
 #--------------------------------------------------------------
-ARG GIT_DOMAIN
-ARG WORKDIR
-ARG SSH_KEY
+ARG WORKDIR=/go/src/github.com/y-miyazaki/docker-golang
 
 #--------------------------------------------------------------
 # ENV
@@ -19,6 +18,7 @@ ENV CGO_ENABLED 0
 #--------------------------------------------------------------
 # workdir
 #--------------------------------------------------------------
+RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 
 # Install dependent packages
@@ -48,21 +48,13 @@ RUN apk --no-cache add make git zip bash openssh curl gcc && \
     github.com/golangci/golangci-lint/cmd/golangci-lint \
     github.com/mgechev/revive \
     github.com/derekparker/delve/cmd/dlv \
-    # go swagger tool
-    go get -u github.com/go-swagger/go-swagger/cmd/swagger \
-    # fresh for go continuous deploy
+    # Coverage outputs covertura format.
     github.com/t-yuki/gocover-cobertura \
+    # fresh for go continuous deploy
     github.com/pilu/fresh 2>&1
 
 # ssh dicrectory
-RUN mkdir -p /root/.ssh && \
-    echo "$SSH_KEY" > /root/.ssh/id_rsa && \
-    chmod 0600 /root/.ssh/id_rsa && \
-    eval `ssh-agent -s` && \
-    ssh-add /root/.ssh/id_rsa && \
-    ssh-keyscan -H ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
-    echo "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n\tIdentityFile /root/.ssh/id_rsa\n" >> /root/.ssh/config && \
-    git config --global url."git@${GIT_DOMAIN}:".insteadOf "https://${GIT_DOMAIN}/"
+RUN mkdir -p /root/.ssh
 
 # setting shells
 ADD ./shell /shell
@@ -71,4 +63,4 @@ mv /shell/* /usr/local/bin/ && \
 rm -rf /shell
 
 ENTRYPOINT []
-CMD ["/usr/local/bin/cmd"]
+CMD ["/usr/local/bin/cmddev"]

@@ -1,3 +1,9 @@
 tmp
 .DS_Store
-coverage.xml
+coverage
+# environment
+docker/devcontainer/*
+!docker/devcontainer/template
+!docker/devcontainer/example
+!docker/devcontainer/shell
+!docker/devcontainer/Dockerfile
