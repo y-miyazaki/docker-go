@@ -9,9 +9,7 @@
       "{your application code directory}:{your application code docker directory}",
       "-v",
       "{your private key file}:/root/.ssh/id_rsa",
-      "--env-file=.env",
-      "--name",
-      "app-local"
+      "--env-file=.env"
     ],
     "workspaceFolder": "{your application code directory}",
     "overrideCommand": false

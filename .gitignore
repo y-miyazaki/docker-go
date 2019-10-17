@@ -1,6 +1,8 @@
 tmp
 .DS_Store
 coverage
+vendor
+docker-golang
 # environment
 docker/devcontainer/*
 !docker/devcontainer/template
