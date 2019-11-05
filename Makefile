@@ -60,28 +60,18 @@ check-aws:
 			$(PROFILE))
 	REGION=$$(aws configure get region $(PROFILE))
 
-check-gcp:
-ifndef PROJECT_ID
-	$(error env|argument must add "PROJECT_ID" for make)
-endif
-
-check-azure:
-ifndef REGISTORY
-	$(error env|argument must add "REGISTORY" for make)
-endif
-
 upload-aws: check-aws
 	@$$(aws ecr get-login --no-include-email --region $(REGION) $(PROFILE))
 	@docker tag $(APP_IMAGE):$(TAG) $(AWS_ID).dkr.ecr.$(REGION).amazonaws.com/$(APP_IMAGE):$(TAG)
 	@docker push $(AWS_ID).dkr.ecr.$(REGION).amazonaws.com/$(APP_IMAGE):$(TAG)
 
-upload-gcp: check-gcp
+upload-gcp:
 # see https://cloud.google.com/container-registry/docs/pushing-and-pulling
 	@gcloud auth configure-docker --quiet
 	@docker tag $(APP_IMAGE) gcr.io/$(PROJECT_ID)/$(APP_IMAGE)
 	@docker push gcr.io/$(PROJECT_ID)/$(APP_IMAGE):$(TAG)
 
-upload-azure: check-azure
+upload-azure:
 # see https://docs.microsoft.com/ja-jp/azure/container-registry/container-registry-get-started-docker-cli
 	@az acr login --name $(REGISTORY)
 	@docker tag $(APP_IMAGE) $(REGISTORY).azurecr.io/$(APP_IMAGE)
