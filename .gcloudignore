@@ -1,0 +1,14 @@
+coverage/
+docker/
+shell/
+tmp/
+
+.dockerignore
+.gcloudignore
+.gitignore
+.git
+
+docker-golang
+Makefile
+runner.conf
+^(.*/)?.*_test\.go$

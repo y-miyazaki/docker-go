@@ -22,7 +22,7 @@ RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 
 # Install dependent packages
-RUN apk --no-cache add make git zip bash openssh curl gcc && \
+RUN apk --no-cache add make git zip bash openssh curl gcc docker docker-compose && \    
     go get -u -v \
     github.com/golang/dep/cmd/dep \
     github.com/mdempsky/gocode \

@@ -1,0 +1,50 @@
+runtime: go113
+
+# see document
+# https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja#runtime_and_app_elements
+default_expiration: "7d"
+
+# see document
+# https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja#runtime_and_app_elements
+# You can select F1, F2, F4, F4_1G, but you need to think cost.
+instance_class: F1 # default: F1
+
+# The first service (module) you upload to a new application must be the 'default' service (module). Please upload a version of the 'default' service (module) before uploading a version for the 'app-test' service (module). See the documentation for more information. Python: (https://developers.google.com/appengine/docs/python/modules/#Python_Uploading%%20modules) Java: (https://developers.google.com/appengine/docs/java/modules/#Java_Uploading%%20modules
+service: default
+
+# skip files cannot be used with the [go113] runtime.
+
+# see document
+# https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja#handlers_element
+handlers:
+  - url: /static
+    static_dir: cloud/gcp/app_engine/static
+
+  # - url: /.*
+  #   script: _go_app
+  #   secure: always
+
+# see document
+# https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja#scaling_elements
+automatic_scaling:
+  target_cpu_utilization: 0.7 # default:0.6
+  target_throughput_utilization: 0.7 # default:0.6
+  # note: should be check max_instances and min_instances and max_idle_instances by environment.
+  max_instances: 2
+  min_instances: 0
+  max_concurrent_requests: 20 # default:10
+  max_idle_instances: automatic # default:automatic
+  min_pending_latency: 30ms # default:30ms
+
+# see document
+# https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja#handlers_element
+env_variables:
+  ENV: "development"
+
+error_handlers:
+  - error_code: over_quota
+    file: cloud/gcp/app_engine/static/html/over_quota.html
+  - error_code: dos_api_denial
+    file: cloud/gcp/app_engine/static/html/dos_api_denial.html
+  - error_code: timeout
+    file: cloud/gcp/app_engine/static/html/timeout.html
