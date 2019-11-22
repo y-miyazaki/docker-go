@@ -23,10 +23,13 @@ GIT_DOMAIN?=github.com
 # from mount
 FROM_MOUNT?=$(shell echo $(PWD))
 # to mount
-TO_MOUNT=""
+TO_MOUNT=
 # git clone url
-GIT_CLONE_URL=""
-
+GIT_CLONE_URL=
+# google service account key file path
+GOOGLE_SERVICE_ACCOUNT_KEY_FILE=
+# for docker run env_file
+ENV_FILE=
 #--------------------------------------------------------------
 # make commands
 #--------------------------------------------------------------
@@ -34,7 +37,7 @@ build:
 	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/build/golang/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) -t $(APP_IMAGE) .
 
 build-app-engine:
-	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/build/cloud/gcp/app_engine/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) -t $(APP_IMAGE)-app-engine .
+	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/build/cloud/gcp/app_engine/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) --build-arg GOOGLE_SERVICE_ACCOUNT_KEY_FILE=$(GOOGLE_SERVICE_ACCOUNT_KEY_FILE) -t $(APP_IMAGE)-app-engine .
 
 build-test:
 	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/test/Dockerfile  --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) -t $(APP_IMAGE)-test .
@@ -47,7 +50,7 @@ run:
 	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) --name $(APP_CONT) $(APP_IMAGE):$(TAG)
 
 run-app-engine:
-	docker run --rm -d $(APP_IMAGE)-app-engine:$(TAG)
+	docker run --rm -d --env-file=$(ENV_FILE) $(APP_IMAGE)-app-engine:$(TAG)
 
 run-test:
 	-docker stop $(APP_CONT)-test

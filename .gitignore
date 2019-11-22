@@ -9,3 +9,7 @@ docker/devcontainer/*
 !docker/devcontainer/example
 !docker/devcontainer/shell
 !docker/devcontainer/Dockerfile
+docker/build/gcp/app_engine
+!docker/build/cloud/gcp/app_engine/.env.template
+!docker/build/cloud/gcp/app_engine/.key.template
+!docker/build/cloud/gcp/app_engine/Dockerfile
