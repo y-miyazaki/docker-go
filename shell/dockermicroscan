@@ -1,6 +1,7 @@
 #!/bin/bash
 #--------------------------------------------------------------
-# install docker clip command & microscan
+# docker microscan for docker image security.
+# auto install docker clip command & microscan.
 # see document & plugins
 # https://github.com/lukaszlach/clip
 #--------------------------------------------------------------
