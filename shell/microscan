@@ -17,6 +17,12 @@ OUTPUT_MICROSCAN=`docker info | grep microscan`
 
 # check arguments
 if [ -z $TOKEN ] || [ -z $IMAGE ]; then
+    echo "# ------------------------------------------------------------------------"
+    echo "# docker image microscan"
+    echo "# ------------------------------------------------------------------------"
+    echo "Please check README.md"
+    echo "https://github.com/aquasecurity/microscanner"
+    echo ""
     echo "USAGE: $NAME {token} {image}"
     exit 1
 fi
