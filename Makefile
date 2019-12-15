@@ -40,7 +40,7 @@ build-app-engine:
 	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/build/cloud/gcp/app_engine/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) --build-arg GOOGLE_SERVICE_ACCOUNT_KEY_FILE=$(GOOGLE_SERVICE_ACCOUNT_KEY_FILE) -t $(APP_IMAGE)-app-engine .
 
 build-test:
-	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/test/Dockerfile  --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) -t $(APP_IMAGE)-test .
+	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/test/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) -t $(APP_IMAGE)-test .
 
 build-local:
 	docker build --rm -f docker/local/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg SSH_KEY=$(SSH_KEY) -t $(APP_IMAGE)-local .

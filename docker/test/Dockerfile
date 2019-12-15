@@ -8,20 +8,24 @@ FROM golang:${GOLANG_VERSION}
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG GIT_DOMAIN
-ARG GIT_CLONE_URL
-ARG GIT_BRANCH
 ARG WORKDIR
+ARG GIT_DOMAIN=github.com
+ARG GIT_CLONE_URL
+ARG GIT_BRANCH=master
+ARG CLOUD_COMMANDS_VERSION=0.1.0
 
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
 # for go test
-ENV CGO_ENABLED 0
+ENV CGO_ENABLED=0
+ENV GOOS=linux
+ENV GOARCH=amd64
 
 #--------------------------------------------------------------
 # workdir
 #--------------------------------------------------------------
+RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 
 # Install dependent packages
@@ -54,7 +58,7 @@ RUN apk --no-cache add make git zip bash openssh curl gcc \
     # github.com/mgechev/revive \
     # github.com/derekparker/delve/cmd/dlv \
     # go swagger tool
-    go get -u github.com/go-swagger/go-swagger/cmd/swagger \
+    github.com/go-swagger/go-swagger/cmd/swagger \
     # Coverage outputs covertura format.
     github.com/t-yuki/gocover-cobertura  2>&1
 # fresh for go continuous deploy
@@ -65,12 +69,12 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     echo "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n\tIdentityFile /root/.ssh/id_rsa\n" >> /root/.ssh/config && \
     ssh-keyscan -H ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
     git config --global url."git@${GIT_DOMAIN}:".insteadOf "https://${GIT_DOMAIN}/" && \
-    # clone/dep/build
+    # clone
     git clone -b ${GIT_BRANCH} ${GIT_CLONE_URL} . && \
-    dep ensure -vendor-only=true
-
-# setting commands
-RUN git clone --depth 1 -b v${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
+    # dependencies
+    # dep ensure -vendor-only=true
+    go mod download && \
+    git clone --depth 1 -b v${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
     cloud-commands/install.sh && \
     rm -rf cloud-command
 

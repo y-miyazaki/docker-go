@@ -7,9 +7,10 @@ FROM golang:${GOLANG_VERSION}
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG GIT_DOMAIN
 ARG WORKDIR
+ARG GIT_DOMAIN=github.com
 ARG SSH_KEY
+ARG CLOUD_COMMANDS_VERSION=0.1.0
 
 #--------------------------------------------------------------
 # ENV
@@ -20,6 +21,7 @@ ENV CGO_ENABLED 0
 #--------------------------------------------------------------
 # workdir
 #--------------------------------------------------------------
+RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 
 # Install dependent packages
@@ -51,7 +53,7 @@ RUN apk --no-cache add make git zip bash openssh curl gcc && \
     github.com/mgechev/revive \
     github.com/derekparker/delve/cmd/dlv \
     # go swagger tool
-    go get -u github.com/go-swagger/go-swagger/cmd/swagger \
+    github.com/go-swagger/go-swagger/cmd/swagger \
     # fresh for go continuous deploy
     github.com/t-yuki/gocover-cobertura \
     github.com/pilu/fresh 2>&1

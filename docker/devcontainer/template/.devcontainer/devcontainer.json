@@ -5,6 +5,7 @@
   },
   "extensions": [
     "esbenp.prettier-vscode",
+    "streetsidesoftware.code-spell-checker",
     "ms-azuretools.vscode-docker",
     "ms-vscode.go"
   ],
@@ -17,6 +18,6 @@
     "/var/run/docker.sock:/var/run/docker.sock",
     "--env-file=.env"
   ],
-  "workspaceFolder": "{your application code directory}",
+  "workspaceFolder": "{your application code docker directory}",
   "overrideCommand": false
 }

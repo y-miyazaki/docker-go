@@ -2,18 +2,19 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-FROM golang:1.13.1-alpine AS build
+FROM golang:1.13.5-alpine AS build
 
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG GIT_DOMAIN
-ARG GIT_CLONE_URL
-ARG GIT_BRANCH
 ARG WORKDIR
-ARG APP="docker-golang"
+ARG GIT_DOMAIN=github.com
+ARG GIT_CLONE_URL
+ARG GIT_BRANCH=master
 # google service account key file path
 ARG GOOGLE_SERVICE_ACCOUNT_KEY_FILE
+ARG CLOUD_COMMANDS_VERSION=0.1.0
+
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
@@ -45,12 +46,11 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     git clone -b ${GIT_BRANCH} ${GIT_CLONE_URL} . && \
     go mod download
 
-# setting shells
-ADD ./shell /shell
-ADD ${GOOGLE_SERVICE_ACCOUNT_KEY_FILE} /env/
-RUN chmod 775 /shell/* && \
-    mv /shell/* /usr/local/bin/ && \
-    rm -rf /shell
+# setting commands
+RUN git clone --depth 1 -b v${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
+    cloud-commands/install.sh && \
+    rm -rf cloud-command
+COPY ${GOOGLE_SERVICE_ACCOUNT_KEY_FILE} /env/
 
 ENTRYPOINT []
 CMD ["/usr/local/bin/gcpappdeploy"]

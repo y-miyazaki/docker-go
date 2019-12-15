@@ -8,7 +8,8 @@ FROM golang:${GOLANG_VERSION}
 # ARG
 # you need to change WORKDIR for application.
 #--------------------------------------------------------------
-ARG WORKDIR=/go/src/github.com/y-miyazaki/vscode-remote-development-terraform-azure
+ARG WORKDIR=/go/src/github.com/y-miyazaki/cloud-commands
+ARG CLOUD_COMMANDS_VERSION=0.1.0
 
 #--------------------------------------------------------------
 # ENV
