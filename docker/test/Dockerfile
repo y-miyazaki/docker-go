@@ -2,7 +2,8 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-FROM golang:1.13.1-alpine
+ARG GOLANG_VERSION=1.13.5-alpine
+FROM golang:${GOLANG_VERSION}
 
 #--------------------------------------------------------------
 # ARG
@@ -27,6 +28,7 @@ WORKDIR ${WORKDIR}
 RUN apk --no-cache add make git zip bash openssh curl gcc \
     g++ libc-dev && \
     go get -u -v \
+    # install dep, but you should be use go mod.
     github.com/golang/dep/cmd/dep \
     # github.com/mdempsky/gocode \
     # github.com/uudashr/gopkgs/cmd/gopkgs \
@@ -55,8 +57,8 @@ RUN apk --no-cache add make git zip bash openssh curl gcc \
     go get -u github.com/go-swagger/go-swagger/cmd/swagger \
     # Coverage outputs covertura format.
     github.com/t-yuki/gocover-cobertura  2>&1
-    # fresh for go continuous deploy
-    # github.com/pilu/fresh 2>&1
+# fresh for go continuous deploy
+# github.com/pilu/fresh 2>&1
 
 # ssh dicrectory
 RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
@@ -67,11 +69,10 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     git clone -b ${GIT_BRANCH} ${GIT_CLONE_URL} . && \
     dep ensure -vendor-only=true
 
-# setting shells
-ADD ./shell /shell
-RUN chmod 775 /shell/* && \
-mv /shell/* /usr/local/bin/ && \
-rm -rf /shell
+# setting commands
+RUN git clone --depth 1 -b v${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
+    cloud-commands/install.sh && \
+    rm -rf cloud-command
 
 ENTRYPOINT []
-CMD ["/usr/local/bin/cmd"]
+CMD ["/usr/local/bin/godockercmd"]

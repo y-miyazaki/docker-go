@@ -1,0 +1,48 @@
+{
+  "editor.fontSize": 16, // font size
+  "editor.suggestFontSize": 24, // サジェストの文字サイズ
+  "editor.tabSize": 4, // tab size
+  "editor.insertSpaces": true, // Tabキーで半角スペースを入力
+  "editor.letterSpacing": -1, // 文字の間隔を詰める
+  "editor.formatOnPaste": false, // コード整形
+  "editor.formatOnType": false, // コード整形
+  "editor.formatOnSave": true, // format on save
+  "editor.hover.sticky": false,
+  "editor.renderLineHighlight": "all", // 選択中の行を強調する
+  "editor.minimap.enabled": false, // minimap
+  "window.zoomLevel": 1,
+  "breadcrumbs.enabled": true,
+  "terminal.integrated.shell.linux": "/bin/bash",
+  "workbench.startupEditor": "newUntitledFile",
+  "explorer.confirmDragAndDrop": false,
+  "terminal.integrated.scrollback": 10000,
+  "go.toolsEnvVars": {
+    "GO111MODULE": "on"
+  },
+  "go.useLanguageServer": true,
+  "go.languageServerExperimentalFeatures": {
+    "format": true,
+    "autoComplete": true,
+    "rename": true,
+    "goToDefinition": true,
+    "hover": true,
+    "signatureHelp": true,
+    "goToTypeDefinition": true,
+    "goToImplementation": true,
+    "documentSymbols": true,
+    "workspaceSymbols": true,
+    "findReferences": true,
+    "diagnostics": true
+  },
+  "[go]": {
+    "editor.snippetSuggestions": "none",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "gopls": {
+    "usePlaceholders": false,
+    "enhancedHover": false
+  }
+}

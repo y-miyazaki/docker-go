@@ -2,7 +2,8 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-FROM golang:1.13.1-alpine AS build
+ARG GOLANG_VERSION=1.13.5-alpine
+FROM golang:${GOLANG_VERSION} AS build
 
 #--------------------------------------------------------------
 # ARG
@@ -28,6 +29,7 @@ WORKDIR ${WORKDIR}
 # Install dependent packages
 RUN apk --no-cache add make git zip bash openssh curl gcc && \
     go get -u -v \
+    # install dep, but you should be use go mod.
     github.com/golang/dep/cmd/dep
 
 RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
@@ -42,7 +44,7 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
 #--------------------------------------------------------------
 # multi-stage image
 #--------------------------------------------------------------
-FROM alpine:3.10.2
+FROM alpine:3.10.3
 
 #--------------------------------------------------------------
 # ARG
