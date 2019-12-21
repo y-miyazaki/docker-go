@@ -9,13 +9,18 @@ FROM golang:${GOLANG_VERSION}
 # you need to change WORKDIR for application.
 #--------------------------------------------------------------
 ARG WORKDIR=/go/src/github.com/y-miyazaki/cloud-commands
-ARG CLOUD_COMMANDS_VERSION=0.1.0
+ARG GIT_DOMAIN=github.com
+ARG SSH_KEY
+ARG CLOUD_COMMANDS_VERSION=0.1.1
+ARG GOLANGCI_LINT_VERSION=1.21.0
 
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
 # for go test
 ENV CGO_ENABLED 0
+ENV GOOS=linux
+ENV GOARCH=amd64
 
 #--------------------------------------------------------------
 # workdir
@@ -51,13 +56,25 @@ RUN apk --no-cache add make git zip bash openssh curl gcc docker docker-compose 
     github.com/golangci/golangci-lint/cmd/golangci-lint \
     github.com/mgechev/revive \
     github.com/derekparker/delve/cmd/dlv \
-    # Coverage outputs covertura format.
-    github.com/t-yuki/gocover-cobertura \
+    # go swagger tool
+    github.com/go-swagger/go-swagger/cmd/swagger \
     # fresh for go continuous deploy
-    github.com/pilu/fresh 2>&1
+    github.com/pilu/fresh 2>&1 && \
+    GO111MODULE=on go get -u -v \
+    # go lint tool
+    github.com/golangci/golangci-lint/cmd/golangci-lint@v${GOLANGCI_LINT_VERSION} \
+    # Coverage outputs covertura format.
+    github.com/t-yuki/gocover-cobertura  2>&1
 
 # ssh dicrectory
-RUN mkdir -p /root/.ssh
+RUN mkdir -p /root/.ssh && \
+    echo "$SSH_KEY" > /root/.ssh/id_rsa && \
+    chmod 0600 /root/.ssh/id_rsa && \
+    eval `ssh-agent -s` && \
+    ssh-add /root/.ssh/id_rsa && \
+    ssh-keyscan -H ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
+    echo "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n\tIdentityFile /root/.ssh/id_rsa\n" >> /root/.ssh/config && \
+    git config --global url."git@${GIT_DOMAIN}:".insteadOf "https://${GIT_DOMAIN}/"
 
 # setting commands
 RUN git clone --depth 1 -b v${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \

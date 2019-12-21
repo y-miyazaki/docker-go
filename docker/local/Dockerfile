@@ -10,13 +10,16 @@ FROM golang:${GOLANG_VERSION}
 ARG WORKDIR
 ARG GIT_DOMAIN=github.com
 ARG SSH_KEY
-ARG CLOUD_COMMANDS_VERSION=0.1.0
+ARG CLOUD_COMMANDS_VERSION=0.1.1
+ARG GOLANGCI_LINT_VERSION=1.21.0
 
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
 # for go test
 ENV CGO_ENABLED 0
+ENV GOOS=linux
+ENV GOARCH=amd64
 
 #--------------------------------------------------------------
 # workdir
@@ -55,8 +58,12 @@ RUN apk --no-cache add make git zip bash openssh curl gcc && \
     # go swagger tool
     github.com/go-swagger/go-swagger/cmd/swagger \
     # fresh for go continuous deploy
-    github.com/t-yuki/gocover-cobertura \
-    github.com/pilu/fresh 2>&1
+    github.com/pilu/fresh 2>&1 && \
+    GO111MODULE=on go get -u -v \
+    # go lint tool
+    github.com/golangci/golangci-lint/cmd/golangci-lint@v${GOLANGCI_LINT_VERSION} \
+    # Coverage outputs covertura format.
+    github.com/t-yuki/gocover-cobertura 2>&1
 
 # ssh dicrectory
 RUN mkdir -p /root/.ssh && \

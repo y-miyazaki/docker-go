@@ -11,7 +11,7 @@
   ],
   "runArgs": [
     "-v",
-    "/Users/yoshiaki_miyazaki/workspace/docker-golang:/go/src/github.com/y-miyazaki/docker-golang",
+    "$HOME/workspace/docker-golang:/go/src/github.com/y-miyazaki/docker-golang",
     "-v",
     "${env:HOME}/.ssh/id_rsa:/root/.ssh/id_rsa",
     "-v",

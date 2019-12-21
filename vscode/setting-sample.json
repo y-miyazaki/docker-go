@@ -16,6 +16,8 @@
   "workbench.startupEditor": "newUntitledFile",
   "explorer.confirmDragAndDrop": false,
   "terminal.integrated.scrollback": 10000,
+  "go.lintTool": "golangci-lint",
+  "go.lintFlags": ["--fast"],
   "go.toolsEnvVars": {
     "GO111MODULE": "on"
   },

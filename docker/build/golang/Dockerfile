@@ -12,7 +12,7 @@ ARG WORKDIR
 ARG GIT_DOMAIN=github.com
 ARG GIT_CLONE_URL
 ARG GIT_BRANCH=master
-ARG CLOUD_COMMANDS_VERSION=0.1.0
+ARG CLOUD_COMMANDS_VERSION=0.1.1
 
 #--------------------------------------------------------------
 # ENV
