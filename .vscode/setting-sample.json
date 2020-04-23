@@ -16,11 +16,27 @@
   "workbench.startupEditor": "newUntitledFile",
   "explorer.confirmDragAndDrop": false,
   "terminal.integrated.scrollback": 10000,
+  "cSpell.language": "en,en-GB",
+  "cSpell.userWords": [
+    "kubernetes",
+    "dockle",
+    "trivy",
+    "cobertura",
+    "azurecr",
+    "bson",
+    "uuid"
+  ],
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": ["--fast"],
+  "go.lintFlags": [
+    "--fast"
+  ],
   "go.toolsEnvVars": {
     "GO111MODULE": "on"
   },
+  "go.alternateTools": {
+    "go-langserver": "gopls"
+  },
+  "go.autocompleteUnimportedPackages": true,
   "go.useLanguageServer": true,
   "go.languageServerExperimentalFeatures": {
     "format": true,

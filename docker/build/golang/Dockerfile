@@ -2,7 +2,7 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-ARG GOLANG_VERSION=1.13.5-alpine
+ARG GOLANG_VERSION=1.13.7-alpine
 FROM golang:${GOLANG_VERSION} AS build
 
 #--------------------------------------------------------------
@@ -12,7 +12,7 @@ ARG WORKDIR
 ARG GIT_DOMAIN=github.com
 ARG GIT_CLONE_URL
 ARG GIT_BRANCH=master
-ARG CLOUD_COMMANDS_VERSION=0.1.1
+ARG CLOUD_COMMANDS_VERSION=0.1.8
 
 #--------------------------------------------------------------
 # ENV
@@ -51,7 +51,7 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
 #--------------------------------------------------------------
 # multi-stage image
 #--------------------------------------------------------------
-FROM alpine:3.10.3
+FROM alpine:3.11.3
 
 #--------------------------------------------------------------
 # ARG

@@ -2,7 +2,7 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-ARG GOLANG_VERSION=1.13.5-alpine
+ARG GOLANG_VERSION=1.13.7-alpine
 FROM golang:${GOLANG_VERSION}
 
 #--------------------------------------------------------------
@@ -12,7 +12,7 @@ ARG WORKDIR
 ARG GIT_DOMAIN=github.com
 ARG GIT_CLONE_URL
 ARG GIT_BRANCH=master
-ARG CLOUD_COMMANDS_VERSION=0.1.1
+ARG CLOUD_COMMANDS_VERSION=0.1.8
 ARG GOLANGCI_LINT_VERSION=1.21.0
 
 #--------------------------------------------------------------
