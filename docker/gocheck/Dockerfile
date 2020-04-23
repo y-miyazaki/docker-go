@@ -1,14 +1,14 @@
 #--------------------------------------------------------------
 # build image(golang)
 #--------------------------------------------------------------
-ARG GOLANG_VERSION=1.13.7-alpine
+ARG GOLANG_VERSION=1.13.10-alpine
 FROM golang:${GOLANG_VERSION} AS go
 
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG CLOUD_COMMANDS_VERSION=0.1.8
-ARG GOLANGCI_LINT_VERSION=1.21.0
+ARG CLOUD_COMMANDS_VERSION=0.2.5
+ARG GOLANGCI_LINT_VERSION=1.25.0
 ARG APP_NAME
 
 #--------------------------------------------------------------
