@@ -9,16 +9,14 @@ FROM golang:${GOLANG_VERSION} AS go
 #--------------------------------------------------------------
 ARG CLOUD_COMMANDS_VERSION=0.2.5
 ARG GOLANGCI_LINT_VERSION=1.25.0
-ARG APP_NAME
-
+ARG WORK_DIR=/workspace
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
 # for go test
-ENV CGO_ENABLED 0
-ENV APP_NAME=${APP_NAME}
-ENV WORK_DIR /go/src/${APP_NAME}
-ENV WORK_COMMON_DIR /go/src/${APP_NAME}/common
+ENV CGO_ENABLED=0
+ENV GOOS=linux
+ENV GOARCH=amd64
 
 # Install dependent packages
 RUN apk --no-cache add make git zip unzip bash openssh curl gcc \
@@ -39,7 +37,5 @@ RUN git clone --depth 1 -b v${CLOUD_COMMANDS_VERSION} https://github.com/y-miyaz
 RUN mkdir -p ${WORK_DIR}
 WORKDIR ${WORK_DIR}
 
-COPY . .
-
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/gocheck"]
 CMD []
