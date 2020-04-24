@@ -2,8 +2,8 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-ARG GOLANG_VERSION=1.13.5-alpine
-FROM golang:${GOLANG_VERSION} AS build
+ARG IMAGE_VERSION=latest
+FROM ymiyazakixyz/golang-build:${IMAGE_VERSION}
 
 #--------------------------------------------------------------
 # ARG
@@ -12,16 +12,8 @@ ARG WORKDIR
 ARG GIT_DOMAIN=github.com
 ARG GIT_CLONE_URL
 ARG GIT_BRANCH=master
-ARG CLOUD_COMMANDS_VERSION=0.1.0
 # google service account key file path
 ARG GOOGLE_SERVICE_ACCOUNT_KEY_FILE
-
-#--------------------------------------------------------------
-# ENV
-#--------------------------------------------------------------
-ENV CGO_ENABLED=0
-ENV GOOS=linux
-ENV GOARCH=amd64
 
 #--------------------------------------------------------------
 # workdir
@@ -30,11 +22,9 @@ RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 
 #--------------------------------------------------------------
-# Install dependent packages
+# Install Google Cloud SDK
 #--------------------------------------------------------------
-RUN apk --no-cache add make git zip bash openssh curl gcc python && \
-    # Install Google Cloud SDK
-    curl https://sdk.cloud.google.com | bash && \
+RUN curl https://sdk.cloud.google.com | bash && \
     $SHELL && \
     echo "source /root/google-cloud-sdk/path.bash.inc" >> $HOME/.bashrc && \
     echo "source /root/google-cloud-sdk/completion.bash.inc" >> $HOME/.bashrc
@@ -47,11 +37,7 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     git clone -b ${GIT_BRANCH} ${GIT_CLONE_URL} . && \
     # dependencies
     # dep ensure -vendor-only=true
-    go mod download && \
-    # install cloud-commands
-    git clone --depth 1 -b v${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
-    cloud-commands/install.sh && \
-    rm -rf cloud-command
+    go mod download
 
 # create env directory
 RUN mkdir -p /env/

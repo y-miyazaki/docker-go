@@ -17,8 +17,10 @@ ENV PATH $PATH:/root/sonar-scanner-$RELEASE-linux/bin
 
 WORKDIR /root
 
-# install
-RUN apk add --no-cache  curl grep sed unzip
+#--------------------------------------------------------------
+# Install dependent packages
+#--------------------------------------------------------------
+RUN apk add --no-cache curl grep sed unzip
 
 # sonarscanner
 RUN set -x && \

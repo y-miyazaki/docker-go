@@ -2,8 +2,8 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-ARG GOLANG_VERSION=1.13.10-alpine
-FROM golang:${GOLANG_VERSION} AS build
+ARG IMAGE_VERSION=latest
+FROM ymiyazakixyz/golang-build:${IMAGE_VERSION} AS build
 
 #--------------------------------------------------------------
 # ARG
@@ -12,28 +12,12 @@ ARG WORKDIR
 ARG GIT_DOMAIN=github.com
 ARG GIT_CLONE_URL
 ARG GIT_BRANCH=master
-ARG CLOUD_COMMANDS_VERSION=0.1.8
-
-#--------------------------------------------------------------
-# ENV
-#--------------------------------------------------------------
-# for go test
-ENV CGO_ENABLED=0
-ENV GOOS=linux
-ENV GOARCH=amd64
 
 #--------------------------------------------------------------
 # workdir
 #--------------------------------------------------------------
 RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
-
-# Install dependent packages
-RUN apk --no-cache add make git zip bash openssh curl gcc
-# install dep, but you should be use go mod.
-# RUN apk --no-cache add make git zip bash openssh curl gcc && \
-# go get -u -v \
-# github.com/golang/dep/cmd/dep
 
 # ssh dicrectory
 RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
@@ -46,7 +30,7 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     # dep ensure -vendor-only=true && \
     go mod download && \
     go build -o main && \
-    chmod 775 main
+    chmod +x main
 
 #--------------------------------------------------------------
 # multi-stage image
