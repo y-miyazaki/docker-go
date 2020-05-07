@@ -9,9 +9,14 @@
     "ms-azuretools.vscode-docker",
     "ms-vscode.go"
   ],
+  "build": {
+    "args": {
+      "WORKDIR": "/go/src/github.com/y-miyazaki/docker-golang"
+    }
+  },
   "runArgs": [
     "-v",
-    "$HOME/workspace/docker-golang:/go/src/github.com/y-miyazaki/docker-golang",
+    "${env:HOME}/workspace/docker-golang:/go/src/github.com/y-miyazaki/docker-golang",
     "-v",
     "${env:HOME}/.ssh/id_rsa:/root/.ssh/id_rsa",
     "-v",

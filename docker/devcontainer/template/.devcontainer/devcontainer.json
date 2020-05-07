@@ -9,6 +9,11 @@
     "ms-azuretools.vscode-docker",
     "ms-vscode.go"
   ],
+  "build": {
+    "args": {
+      "WORKDIR": "{your application code docker directory}"
+    }
+  },
   "runArgs": [
     "-v",
     "{your application code directory}:{your application code docker directory}",

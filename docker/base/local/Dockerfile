@@ -43,7 +43,6 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo && \
     github.com/cweill/gotests/... \
     golang.org/x/tools/cmd/goimports \
     golang.org/x/lint/golint \
-    golang.org/x/tools/gopls \
     github.com/alecthomas/gometalinter \
     honnef.co/go/tools/... \
     github.com/mgechev/revive \
@@ -53,6 +52,7 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo && \
     # fresh for go continuous deploy
     github.com/pilu/fresh 2>&1 && \
     GO111MODULE=on go get -u -v \
+    golang.org/x/tools/gopls \
     # go lint tool
     github.com/golangci/golangci-lint/cmd/golangci-lint@v${GOLANGCI_LINT_VERSION} \
     # Coverage outputs covertura format.
