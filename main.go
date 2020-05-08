@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -17,6 +18,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(i)
 
 	fmt.Println(quote.Opt())
+	testA()
+
+}
+func testA() error {
+	return errors.New("test")
 }
 
 func main() {
