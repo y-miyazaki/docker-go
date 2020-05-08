@@ -46,8 +46,6 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo && \
     github.com/fatih/gomodifytags@latest \
     github.com/mgechev/revive@latest \
     github.com/go-delve/delve@latest \
-    # install dep, but you should be use go mod.
-    github.com/golang/dep/cmd/dep@latest \
     # go swagger tool
     github.com/go-swagger/go-swagger/cmd/swagger@latest \
     # fresh for go continuous deploy
