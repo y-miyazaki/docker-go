@@ -16,6 +16,8 @@ ARG GOLANGCI_LINT_VERSION=1.25.0
 ENV CGO_ENABLED 0
 ENV GOOS=linux
 ENV GOARCH=amd64
+# Update this to "on" or "off" as appropriate
+ENV GO111MODULE=auto
 
 #--------------------------------------------------------------
 # Install dependent packages
@@ -23,40 +25,38 @@ ENV GOARCH=amd64
 RUN apk add --no-cache make git zip bash openssh curl gcc sudo && \
     # fix sudo: setrlimit(RLIMIT_CORE): Operation not permitted
     echo "Set disable_coredump false" >> /etc/sudo.conf && \
-    go get -u -v \
+    GO111MODULE=on go get -v \
+    honnef.co/go/tools/...@latest \
+    golang.org/x/tools/cmd/gorename@latest \
+    golang.org/x/tools/cmd/goimports@latest \
+    golang.org/x/tools/cmd/guru@latest \
+    golang.org/x/lint/golint@latest \
+    github.com/mdempsky/gocode@latest \
+    github.com/cweill/gotests/...@latest \
+    github.com/haya14busa/goplay/cmd/goplay@latest \
+    github.com/sqs/goreturns@latest \
+    github.com/josharian/impl@latest \
+    github.com/davidrjenni/reftools/cmd/fillstruct@latest \
+    github.com/uudashr/gopkgs/v2/cmd/gopkgs@latest  \
+    github.com/ramya-rao-a/go-outline@latest \
+    github.com/acroca/go-symbols@latest \
+    github.com/godoctor/godoctor@latest  \
+    github.com/rogpeppe/godef@latest \
+    github.com/zmb3/gogetdoc@latest \
+    github.com/fatih/gomodifytags@latest \
+    github.com/mgechev/revive@latest \
+    github.com/go-delve/delve@latest \
     # install dep, but you should be use go mod.
-    github.com/golang/dep/cmd/dep \
-    github.com/mdempsky/gocode \
-    github.com/uudashr/gopkgs/cmd/gopkgs \
-    github.com/ramya-rao-a/go-outline \
-    github.com/acroca/go-symbols \
-    github.com/godoctor/godoctor \
-    golang.org/x/tools/cmd/guru \
-    golang.org/x/tools/cmd/gorename \
-    github.com/rogpeppe/godef \
-    github.com/zmb3/gogetdoc \
-    github.com/haya14busa/goplay/cmd/goplay \
-    github.com/sqs/goreturns \
-    github.com/josharian/impl \
-    github.com/davidrjenni/reftools/cmd/fillstruct \
-    github.com/fatih/gomodifytags \
-    github.com/cweill/gotests/... \
-    golang.org/x/tools/cmd/goimports \
-    golang.org/x/lint/golint \
-    github.com/alecthomas/gometalinter \
-    honnef.co/go/tools/... \
-    github.com/mgechev/revive \
-    github.com/derekparker/delve/cmd/dlv \
+    github.com/golang/dep/cmd/dep@latest \
     # go swagger tool
-    github.com/go-swagger/go-swagger/cmd/swagger \
+    github.com/go-swagger/go-swagger/cmd/swagger@latest \
     # fresh for go continuous deploy
-    github.com/pilu/fresh 2>&1 && \
-    GO111MODULE=on go get -u -v \
-    golang.org/x/tools/gopls \
+    github.com/pilu/fresh@latest \
+    golang.org/x/tools/gopls@latest \
     # go lint tool
     github.com/golangci/golangci-lint/cmd/golangci-lint@v${GOLANGCI_LINT_VERSION} \
     # Coverage outputs covertura format.
-    github.com/t-yuki/gocover-cobertura 2>&1
+    github.com/t-yuki/gocover-cobertura@latest 2>&1
 
 # setting commands
 RUN git clone --depth 1 -b v${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
