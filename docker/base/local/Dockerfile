@@ -12,7 +12,8 @@ ARG CLOUD_COMMANDS_VERSION=0.2.5
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
-ENV CGO_ENABLED 0
+# for go test
+ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
 # Update this to "on" or "off" as appropriate

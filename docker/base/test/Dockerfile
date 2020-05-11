@@ -16,12 +16,13 @@ ARG CLOUD_COMMANDS_VERSION=0.2.5
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
+# Update this to "on" or "off" as appropriate
+ENV GO111MODULE=auto
 
 #--------------------------------------------------------------
 # Install dependent packages
 #--------------------------------------------------------------
-RUN apk add --no-cache make git zip bash openssh curl gcc sudo \
-    g++ libc-dev && \
+RUN apk add --no-cache make git zip bash openssh curl gcc sudo g++ libc-dev && \
     # fix sudo: setrlimit(RLIMIT_CORE): Operation not permitted
     echo "Set disable_coredump false" >> /etc/sudo.conf && \
     GO111MODULE=on go get -v \

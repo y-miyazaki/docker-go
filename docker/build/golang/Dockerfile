@@ -27,7 +27,6 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     # clone
     git clone -b ${GIT_BRANCH} ${GIT_CLONE_URL} . && \
     # dependencies
-    # dep ensure -vendor-only=true && \
     go mod download && \
     go build -o main && \
     chmod +x main
