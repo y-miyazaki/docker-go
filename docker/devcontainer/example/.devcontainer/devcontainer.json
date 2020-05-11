@@ -4,11 +4,14 @@
     "terminal.integrated.shell.linux": "/bin/bash"
   },
   "extensions": [
-    "esbenp.prettier-vscode",
-    "streetsidesoftware.code-spell-checker",
-    "ms-azuretools.vscode-docker",
     "ms-vscode.go",
-    "coenraads.bracket-pair-colorizer"
+    "ms-azuretools.vscode-docker",
+    "coenraads.bracket-pair-colorizer-2",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "ibm.output-colorizer",
+    "streetsidesoftware.code-spell-checker",
+    "vscode-icons-team.vscode-icons"
   ],
   "build": {
     "args": {
