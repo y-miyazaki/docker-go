@@ -43,8 +43,8 @@
   "editor.renderControlCharacters": true, // 制御文字の表示
   "editor.renderLineHighlight": "all", // 選択中の行を強調する
   "editor.renderWhitespace": "all", // エディターで空白文字を表示する方法を制御します。'none'、'boundary' および 'all' が使用可能です。'boundary' オプションでは、単語間の単一スペースは表示されません。
-  "editor.suggestFontSize": 24, // サジェストの文字サイズ
-  "editor.tabSize": 4, // tab size
+  "editor.suggestFontSize": 16, // サジェストの文字サイズ
+  "editor.tabSize": 2, // tab size
   "explorer.confirmDragAndDrop": false,
   "files.autoGuessEncoding": true, // 文字コードを自動判別
   "files.eol": "\n", // 改行コードをLF(Linux/OSX)にする
@@ -132,8 +132,10 @@
     "completeUnimported": true
   },
   "[go]": {
-    "editor.snippetSuggestions": "none",
     "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.snippetSuggestions": "bottom",
+    "editor.tabSize": 4,
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     }
