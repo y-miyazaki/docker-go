@@ -12,14 +12,15 @@ import (
 var log = logrus.New()
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	log.Level = logrus.DebugLevel
+
 	log.Debug("hellow world!")
 	n, i := fmt.Fprintf(w, "Hello, World")
 	fmt.Println(n)
 	fmt.Println(i)
 
 	fmt.Println(quote.Opt())
-	testA()
-
+	_ = testA()
 }
 func testA() error {
 	return errors.New("test")
@@ -27,9 +28,5 @@ func testA() error {
 
 func main() {
 	http.HandleFunc("/", handler)
-	http.ListenAndServe(":8080", nil)
-}
-
-func init() {
-	log.Level = logrus.DebugLevel
+	_ = http.ListenAndServe(":8080", nil)
 }

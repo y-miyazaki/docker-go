@@ -8,7 +8,7 @@ FROM ymiyazakixyz/golang-build:${IMAGE_VERSION}
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG WORKDIR
+ARG WORKDIR=/workspace
 ARG GIT_DOMAIN=github.com
 ARG GIT_CLONE_URL
 ARG GIT_BRANCH=master
@@ -19,7 +19,7 @@ ARG GOOGLE_SERVICE_ACCOUNT_KEY_FILE
 # workdir
 #--------------------------------------------------------------
 RUN mkdir -p ${WORKDIR}
-WORKDIR ${WORKDIR}
+WORKDIR  ${WORKDIR}
 
 #--------------------------------------------------------------
 # Install Google Cloud SDK

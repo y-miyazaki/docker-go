@@ -19,10 +19,11 @@
     "**/.*ignore",
     "**/*.log",
     "**/*.out",
-    "**/*.yaml"
+    "**/*.yaml",
+    "**/*.json"
   ],
-  "editor.autoIndent": true, // オートインデント
-  "editor.detectIndentation": false,
+  "editor.autoIndent": "full", // オートインデント
+  "editor.detectIndentation": false, // インデントの自動判別
   "editor.formatOnPaste": false, // コード整形
   "editor.formatOnType": false, // コード整形
   "editor.formatOnSave": true, // format on save
@@ -55,14 +56,20 @@
   "terminal.integrated.scrollback": 10000,
   "window.zoomLevel": 1,
   "workbench.startupEditor": "newUntitledFile",
+  "workbench.colorCustomizations": {
+    "editor.lineHighlightBackground": "#404040"
+  },
   "go.toolsEnvVars": {
     "GO111MODULE": "on"
   },
   // for auto complete
   "go.autocompleteUnimportedPackages": true,
+  // go format tool
+  "go.formatTool": "goimports",
+  "go.formatFlags": ["-w"],
   // for golang lint
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": ["--config=${workspaceFolder}/golangci.yaml", "--fast"],
+  "go.lintFlags": ["--config=${workspaceFolder}/golangci.yaml"],
   // for go coverage and test
   "go.testOnSave": true,
   "go.coverOnSingleTest": true,
@@ -95,6 +102,11 @@
     "findReferences": true,
     "diagnostics": true
   },
+  "gopls": {
+    "usePlaceholders": true,
+    // "enhancedHover": true,
+    "completeUnimported": true
+  },
   "[go]": {
     "editor.snippetSuggestions": "none",
     "editor.formatOnSave": true,
@@ -108,9 +120,9 @@
       "source.organizeImports": true
     }
   },
-  "gopls": {
-    "usePlaceholders": true,
-    "enhancedHover": false,
-    "completeUnimported": true
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "none"
   }
 }

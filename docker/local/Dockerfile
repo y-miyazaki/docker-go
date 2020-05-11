@@ -8,13 +8,13 @@ FROM ymiyazakixyz/golang-local:${IMAGE_VERSION}
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG WORKDIR
+ARG WORKDIR=/workspace
 
 #--------------------------------------------------------------
 # workdir
 #--------------------------------------------------------------
 RUN mkdir -p ${WORKDIR}
-WORKDIR ${WORKDIR}
+WORKDIR  ${WORKDIR}
 
 ENTRYPOINT []
 CMD ["/usr/local/bin/godockercmddev"]

@@ -67,7 +67,7 @@ run-app-engine:
 
 run-test:
 	# command example
-	# make run-test 
+	# make run-test
 	-docker stop $(APP_CONT)-test
 	docker run --rm -it --name $(APP_CONT)-test $(APP_IMAGE)-test:$(TAG) $(TEST_OPTION)
 

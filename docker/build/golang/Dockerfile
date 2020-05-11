@@ -8,7 +8,7 @@ FROM ymiyazakixyz/golang-build:${IMAGE_VERSION} AS build
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG WORKDIR
+ARG WORKDIR=/workspace
 ARG GIT_DOMAIN=github.com
 ARG GIT_CLONE_URL
 ARG GIT_BRANCH=master
@@ -17,7 +17,7 @@ ARG GIT_BRANCH=master
 # workdir
 #--------------------------------------------------------------
 RUN mkdir -p ${WORKDIR}
-WORKDIR ${WORKDIR}
+WORKDIR  ${WORKDIR}
 
 # ssh dicrectory
 RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
@@ -40,11 +40,11 @@ FROM alpine:3.11.5
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG WORKDIR
+ARG WORKDIR=/workspace
 
 COPY --from=build ${WORKDIR}/* ${WORKDIR}/
 
-WORKDIR ${WORKDIR}
+WORKDIR  ${WORKDIR}
 
 ENTRYPOINT []
 CMD ["./main"]
