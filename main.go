@@ -19,6 +19,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(n)
 	fmt.Println(i)
 
+	c, err := example("hoge")
+	if err == nil {
+		fmt.Println(c)
+	} else {
+		panic("problem.")
+	}
+
 	fmt.Println(quote.Opt())
 	_ = testA()
 }
@@ -28,5 +35,5 @@ func testA() error {
 
 func main() {
 	http.HandleFunc("/", handler)
-	http.ListenAndServe(":8080", nil)
+	_ = http.ListenAndServe(":8080", nil)
 }

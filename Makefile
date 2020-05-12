@@ -33,7 +33,7 @@ ENV_FILE=
 # for docker run env_file
 TEST_OPTION=
 # gocheck command options
-GOCHECK_OPTION?=-a=./golangci.yaml -t
+GOCHECK_OPTION?=-a golangci.yaml -t -s
 #--------------------------------------------------------------
 # make commands
 #--------------------------------------------------------------
