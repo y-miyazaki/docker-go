@@ -28,5 +28,5 @@ func testA() error {
 
 func main() {
 	http.HandleFunc("/", handler)
-	_ = http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", nil)
 }

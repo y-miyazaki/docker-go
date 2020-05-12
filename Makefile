@@ -32,27 +32,29 @@ GOOGLE_SERVICE_ACCOUNT_KEY_FILE=
 ENV_FILE=
 # for docker run env_file
 TEST_OPTION=
+# gocheck command options
+GOCHECK_OPTION?=-a=./golangci.yaml -t
 #--------------------------------------------------------------
 # make commands
 #--------------------------------------------------------------
 build:
 	# command example
-	# make build SSH_KEY_PATH=$HOME/.ssh/id_rsa WORKDIR=/go/src/github.com/y-miyazaki/docker-golang GIT_CLONE_URL=https://github.com/y-miyazaki/docker-golang.git GIT_DOMAIN=github.com GIT_BRANCH=master
+	# make build SSH_KEY_PATH=$$HOME/.ssh/id_rsa WORKDIR=/go/src/github.com/y-miyazaki/docker-golang GIT_CLONE_URL=https://github.com/y-miyazaki/docker-golang.git GIT_DOMAIN=github.com GIT_BRANCH=master
 	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/build/golang/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) -t $(APP_IMAGE) .
 
 build-app-engine:
 	# command example
-	# make build-app-engine SSH_KEY_PATH=$HOME/.ssh/id_rsa WORKDIR=/go/src/github.com/y-miyazaki/docker-golang GIT_CLONE_URL=https://github.com/y-miyazaki/docker-golang.git GIT_DOMAIN=github.com GIT_BRANCH=master GOOGLE_SERVICE_ACCOUNT_KEY_FILE=./docker/build/cloud/gcp/app_engine/.key
+	# make build-app-engine SSH_KEY_PATH=$$HOME/.ssh/id_rsa WORKDIR=/go/src/github.com/y-miyazaki/docker-golang GIT_CLONE_URL=https://github.com/y-miyazaki/docker-golang.git GIT_DOMAIN=github.com GIT_BRANCH=master GOOGLE_SERVICE_ACCOUNT_KEY_FILE=./docker/build/cloud/gcp/app_engine/.key
 	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/build/cloud/gcp/app_engine/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) --build-arg GOOGLE_SERVICE_ACCOUNT_KEY_FILE=$(GOOGLE_SERVICE_ACCOUNT_KEY_FILE) -t $(APP_IMAGE)-app-engine .
 
 build-test:
 	# command example
-	# make build-test SSH_KEY_PATH=$HOME/.ssh/id_rsa WORKDIR=/go/src/github.com/y-miyazaki/docker-golang GIT_CLONE_URL=https://github.com/y-miyazaki/docker-golang.git GIT_DOMAIN=github.com GIT_BRANCH=master
+	# make build-test SSH_KEY_PATH=$$HOME/.ssh/id_rsa WORKDIR=/go/src/github.com/y-miyazaki/docker-golang GIT_CLONE_URL=https://github.com/y-miyazaki/docker-golang.git GIT_DOMAIN=github.com GIT_BRANCH=master
 	export DOCKER_BUILDKIT=1; docker build --secret id=ssh,src=$(SSH_KEY_PATH) --rm -f docker/test/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_CLONE_URL=$(GIT_CLONE_URL) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg GIT_BRANCH=$(GIT_BRANCH) -t $(APP_IMAGE)-test .
 
 build-local:
 	# command example
-	# make build-local SSH_KEY_PATH=$HOME/.ssh/id_rsa WORKDIR=/go/src/github.com/y-miyazaki/docker-golang GIT_CLONE_URL=https://github.com/y-miyazaki/docker-golang.git GIT_DOMAIN=github.com GIT_BRANCH=master
+	# make build-local SSH_KEY_PATH=$$HOME/.ssh/id_rsa WORKDIR=/go/src/github.com/y-miyazaki/docker-golang GIT_CLONE_URL=https://github.com/y-miyazaki/docker-golang.git GIT_DOMAIN=github.com GIT_BRANCH=master
 	docker build --rm -f docker/local/Dockerfile --build-arg WORKDIR=$(WORKDIR) --build-arg GIT_DOMAIN=$(GIT_DOMAIN) --build-arg SSH_KEY=$(SSH_KEY) -t $(APP_IMAGE)-local .
 
 run:
@@ -69,7 +71,7 @@ run-test:
 	# command example
 	# make run-test
 	-docker stop $(APP_CONT)-test
-	docker run --rm -it --name $(APP_CONT)-test $(APP_IMAGE)-test:$(TAG) $(TEST_OPTION)
+	docker run --rm -it --name $(APP_CONT)-test $(APP_IMAGE)-test:$(TAG) $(TEST_OPTION) ${GOCHECK_OPTION}
 
 run-local:
 	# command example
