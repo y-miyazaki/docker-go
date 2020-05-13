@@ -4,11 +4,11 @@ coverage
 vendor
 docker-golang
 # environment
-docker/devcontainer/*
-!docker/devcontainer/template
-!docker/devcontainer/example
-!docker/devcontainer/shell
-!docker/devcontainer/Dockerfile
+env/*
+!env/template
+!env/example
+!env/shell
+!env/Dockerfile
 docker/build/cloud/gcp/app_engine
 !docker/build/cloud/gcp/app_engine/.env.template
 !docker/build/cloud/gcp/app_engine/.key.template
