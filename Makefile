@@ -2,6 +2,7 @@
 # image and container name
 #--------------------------------------------------------------
 APP_IMAGE?=app
+REPOSITORY_NAME?=app
 APP_CONT?=app
 TAG?=latest
 
@@ -79,28 +80,22 @@ run-local:
 	-docker stop $(APP_CONT)-local
 	docker run --rm -d -p $(FROM_PORT):$(TO_PORT) -v $(FROM_MOUNT):$(TO_MOUNT) --name $(APP_CONT)-local $(APP_IMAGE)-local:$(TAG)
 
-check-aws:
-	PROFILE=--profile $(PROFILE)
-	AWS_ID=$$( \
-			aws sts get-caller-identity \
-			--query 'Account' \
-			--output text \
-			$(PROFILE))
-	REGION=$$(aws configure get region $(PROFILE))
-
-upload-aws: check-aws
-	@$$(aws ecr get-login --no-include-email --region $(REGION) $(PROFILE))
-	@docker tag $(APP_IMAGE):$(TAG) $(AWS_ID).dkr.ecr.$(REGION).amazonaws.com/$(APP_IMAGE):$(TAG)
-	@docker push $(AWS_ID).dkr.ecr.$(REGION).amazonaws.com/$(APP_IMAGE):$(TAG)
+upload-aws:
+# CLIv1
+#@$$(aws ecr get-login --no-include-email --region $(REGION) $(PROFILE))
+# CLIv2
+	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin https://$(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
+	@docker tag $(APP_IMAGE):$(TAG) $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(REPOSITORY_NAME):$(TAG)
+	@docker push $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(REPOSITORY_NAME):$(TAG)
 
 upload-gcp:
 # see https://cloud.google.com/container-registry/docs/pushing-and-pulling
 	@gcloud auth configure-docker --quiet
-	@docker tag $(APP_IMAGE) gcr.io/$(PROJECT_ID)/$(APP_IMAGE)
+	@docker tag $(APP_IMAGE) gcr.io/$(PROJECT_ID)/$(REPOSITORY_NAME)
 	@docker push gcr.io/$(PROJECT_ID)/$(APP_IMAGE):$(TAG)
 
 upload-azure:
 # see https://docs.microsoft.com/ja-jp/azure/container-registry/container-registry-get-started-docker-cli
 	@az acr login --name $(REGISTORY)
-	@docker tag $(APP_IMAGE) $(REGISTORY).azurecr.io/$(APP_IMAGE)
+	@docker tag $(APP_IMAGE) $(REGISTORY).azurecr.io/$(REPOSITORY_NAME)
 	@docker push $(REGISTORY).azurecr.io/$(APP_IMAGE):$(TAG)

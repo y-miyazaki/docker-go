@@ -1,6 +1,7 @@
 tmp
 .DS_Store
 coverage
+example
 vendor
 docker-golang
 # environment

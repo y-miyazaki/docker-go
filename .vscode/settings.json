@@ -44,7 +44,7 @@
   "editor.renderLineHighlight": "all", // 選択中の行を強調する
   "editor.renderWhitespace": "all", // エディターで空白文字を表示する方法を制御します。'none'、'boundary' および 'all' が使用可能です。'boundary' オプションでは、単語間の単一スペースは表示されません。
   "editor.suggestFontSize": 16, // サジェストの文字サイズ
-  "editor.tabSize": 2, // tab size
+  "editor.tabSize": 4, // tab size
   "explorer.confirmDragAndDrop": false,
   "files.autoGuessEncoding": true, // 文字コードを自動判別
   "files.eol": "\n", // 改行コードをLF(Linux/OSX)にする
@@ -90,10 +90,14 @@
   "go.autocompleteUnimportedPackages": true,
   // go format tool
   "go.formatTool": "goimports",
-  "go.formatFlags": ["-w"],
+  "go.formatFlags": [
+    "-w"
+  ],
   // for golang lint
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": ["--config=${workspaceFolder}/golangci.yaml"],
+  "go.lintFlags": [
+    "--config=${workspaceFolder}/golangci.yaml"
+  ],
   // for go coverage and test
   "go.testOnSave": true,
   "go.coverOnSingleTest": true,
@@ -107,7 +111,9 @@
     "coveredGutterStyle": "blockblue",
     "uncoveredGutterStyle": "slashyellow"
   },
-  "go.testFlags": ["-v"],
+  "go.testFlags": [
+    "-v"
+  ],
   "go.toolsGopath": "/go",
   "go.alternateTools": {
     "go-langserver": "gopls"
