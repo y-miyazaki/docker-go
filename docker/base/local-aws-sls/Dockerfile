@@ -2,7 +2,7 @@
 # build image
 #--------------------------------------------------------------
 ARG IMAGE_VERSION=latest
-FROM ymiyazakixyz/local-aws:${IMAGE_VERSION}
+FROM ymiyazakixyz/golang-local-aws:${IMAGE_VERSION}
 
 #--------------------------------------------------------------
 # Install dependent packages
