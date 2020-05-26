@@ -17,6 +17,7 @@ func TestExampleSuccess(t *testing.T) {
 func TestExampleFailed(t *testing.T) {
 	result, err := example("fuga")
 	if err == nil {
+
 		t.Fatal("failed test")
 	}
 	if result != 0 {
