@@ -24,6 +24,10 @@
     "-v",
     "${env:HOME}/.ssh/id_rsa:/root/.ssh/id_rsa",
     "-v",
+    "${env:HOME}/.gitconfig:/root/.gitconfig",
+    "-v",
+    "${env:HOME}/.ssh/config:/root/.ssh/config",
+    "-v",
     "/var/run/docker.sock:/var/run/docker.sock",
     "--env-file=.env"
   ],
