@@ -1,5 +1,5 @@
 {
-  "image": "registry.hub.docker.com/ymiyazakixyz/golang-local:1.13.11-alpine",
+  "image": "registry.hub.docker.com/ymiyazakixyz/golang-local-aws-sls:1.13.11-alpine",
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
@@ -8,6 +8,7 @@
     "ms-azuretools.vscode-docker",
     "coenraads.bracket-pair-colorizer-2",
     "eamodio.gitlens",
+    "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
     "ibm.output-colorizer",
     "streetsidesoftware.code-spell-checker",
@@ -15,12 +16,12 @@
   ],
   "build": {
     "args": {
-      "WORKDIR": "/go/src/github.com/y-miyazaki/docker-golang"
+      "WORKDIR": "/workspace"
     }
   },
   "runArgs": [
     "-v",
-    "${env:HOME}/workspace/docker-golang:/go/src/github.com/y-miyazaki/docker-golang",
+    "${env:HOME}/workspace/terraform-modules:/workspace",
     "-v",
     "${env:HOME}/.ssh/id_rsa:/root/.ssh/id_rsa",
     "-v",
@@ -31,6 +32,6 @@
     "/var/run/docker.sock:/var/run/docker.sock",
     "--env-file=.env"
   ],
-  "workspaceFolder": "/go/src/github.com/y-miyazaki/docker-golang",
+  "workspaceFolder": "/workspace",
   "overrideCommand": false
 }

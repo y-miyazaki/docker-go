@@ -34,7 +34,8 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
 #--------------------------------------------------------------
 # multi-stage image
 #--------------------------------------------------------------
-FROM alpine:3.11.5
+ARG IMAGE_VERSION_ALPINE=latest
+FROM alpine:${IMAGE_VERSION_ALPINE}
 
 #--------------------------------------------------------------
 # ARG

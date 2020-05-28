@@ -1,0 +1,37 @@
+{
+  "image": "registry.hub.docker.com/ymiyazakixyz/golang-local:1.13.11-alpine",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "ms-vscode.go",
+    "ms-azuretools.vscode-docker",
+    "coenraads.bracket-pair-colorizer-2",
+    "eamodio.gitlens",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "ibm.output-colorizer",
+    "streetsidesoftware.code-spell-checker",
+    "vscode-icons-team.vscode-icons"
+  ],
+  "build": {
+    "args": {
+      "WORKDIR": "/go/src/github.com/y-miyazaki/docker-golang"
+    }
+  },
+  "runArgs": [
+    "-v",
+    "${env:HOME}/workspace/docker-golang:/go/src/github.com/y-miyazaki/docker-golang",
+    "-v",
+    "${env:HOME}/.ssh/id_rsa:/root/.ssh/id_rsa",
+    "-v",
+    "${env:HOME}/.gitconfig:/root/.gitconfig",
+    "-v",
+    "${env:HOME}/.ssh/config:/root/.ssh/config",
+    "-v",
+    "/var/run/docker.sock:/var/run/docker.sock",
+    "--env-file=.env"
+  ],
+  "workspaceFolder": "/go/src/github.com/y-miyazaki/docker-golang",
+  "overrideCommand": false
+}

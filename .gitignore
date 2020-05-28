@@ -6,10 +6,11 @@ vendor
 docker-golang
 # environment
 env/*
-!env/template
-!env/example
-!env/shell
-!env/Dockerfile
+!env/base
+!env/serverless-aws
+env/*/*
+!env/*/template
+!env/*/example
 docker/build/cloud/gcp/app_engine
 !docker/build/cloud/gcp/app_engine/.env.template
 !docker/build/cloud/gcp/app_engine/.key.template
