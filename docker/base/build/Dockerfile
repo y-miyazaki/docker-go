@@ -26,6 +26,6 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo && \
     # fix sudo: setrlimit(RLIMIT_CORE): Operation not permitted
     echo "Set disable_coredump false" >> /etc/sudo.conf && \
     # setting commands
-    git clone --depth 1 -b v${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
+    git clone --depth 1 -b ${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
     cloud-commands/install.sh && \
     rm -rf cloud-command
