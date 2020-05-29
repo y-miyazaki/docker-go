@@ -16,12 +16,12 @@
   ],
   "build": {
     "args": {
-      "WORKDIR": "/workspace"
+      "WORKDIR": "/go/src/github.com/y-miyazaki/lambda-project"
     }
   },
   "runArgs": [
     "-v",
-    "${env:HOME}/workspace/terraform-modules:/workspace",
+    "${env:HOME}/workspace/lambda-project:/go/src/github.com/y-miyazaki/lambda-project",
     "-v",
     "${env:HOME}/.ssh/id_rsa:/root/.ssh/id_rsa",
     "-v",
@@ -32,6 +32,6 @@
     "/var/run/docker.sock:/var/run/docker.sock",
     "--env-file=.env"
   ],
-  "workspaceFolder": "/workspace",
+  "workspaceFolder": "/go/src/github.com/y-miyazaki/lambda-project",
   "overrideCommand": false
 }

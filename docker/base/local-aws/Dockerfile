@@ -30,4 +30,4 @@ RUN apk --no-cache add binutils && \
     rm glibc-bin-${GLIBC_VER}.apk
 
 ENTRYPOINT []
-CMD ["/usr/local/bin/godockercmd"]
+CMD ["/usr/local/bin/awsdockercmd"]

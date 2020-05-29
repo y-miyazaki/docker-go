@@ -20,4 +20,4 @@ RUN apk --no-cache add python3 && \
     echo "source /root/google-cloud-sdk/completion.bash.inc" >> $HOME/.bashrc
 
 ENTRYPOINT []
-CMD ["/usr/local/bin/godockercmd"]
+CMD ["/usr/local/bin/gcpdockercmd"]

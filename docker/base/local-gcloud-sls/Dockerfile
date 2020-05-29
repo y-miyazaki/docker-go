@@ -2,7 +2,7 @@
 # build image
 #--------------------------------------------------------------
 ARG IMAGE_VERSION=latest
-FROM ymiyazakixyz/golang-local-aws:${IMAGE_VERSION}
+FROM ymiyazakixyz/golang-local-gcloud:${IMAGE_VERSION}
 
 #--------------------------------------------------------------
 # Install dependent packages
@@ -13,4 +13,4 @@ RUN apk --no-cache add npm && \
     npm install -g serverless --ignore-scripts spawn-sync
 
 ENTRYPOINT []
-CMD ["/usr/local/bin/awsdockercmd"]
+CMD ["/usr/local/bin/gcpdockercmd"]
