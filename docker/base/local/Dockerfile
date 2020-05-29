@@ -31,7 +31,7 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo docker && \
     golang.org/x/tools/cmd/goimports@latest \
     golang.org/x/tools/cmd/guru@latest \
     golang.org/x/lint/golint@latest \
-    github.com/mdempsky/gocode@latest \
+    github.com/stamblerre/gocode@latest \
     github.com/cweill/gotests/...@latest \
     github.com/haya14busa/goplay/cmd/goplay@latest \
     github.com/sqs/goreturns@latest \
