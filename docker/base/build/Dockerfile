@@ -29,3 +29,6 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo && \
     git clone --depth 1 -b ${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
     cloud-commands/install.sh && \
     rm -rf cloud-command
+
+ENTRYPOINT []
+CMD []
