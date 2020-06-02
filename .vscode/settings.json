@@ -100,7 +100,6 @@
   "go.lintTool": "golangci-lint",
   "go.lintFlags": [
     "--config=${workspaceFolder}/golangci.yaml"
-    // "--fast"
   ],
   // for go coverage and test
   "go.testOnSave": true,
