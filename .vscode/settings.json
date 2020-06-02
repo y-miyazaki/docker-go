@@ -93,10 +93,15 @@
   "go.autocompleteUnimportedPackages": true,
   // go format tool
   "go.formatTool": "goimports",
-  "go.formatFlags": ["-w"],
+  "go.formatFlags": [
+    "-w"
+  ],
   // for golang lint
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": ["--config=${workspaceFolder}/golangci.yaml"],
+  "go.lintFlags": [
+    "--config=${workspaceFolder}/golangci.yaml"
+    // "--fast"
+  ],
   // for go coverage and test
   "go.testOnSave": true,
   "go.coverOnSingleTest": true,
@@ -110,7 +115,9 @@
     "coveredGutterStyle": "blockblue",
     "uncoveredGutterStyle": "slashyellow"
   },
-  "go.testFlags": ["-v"],
+  "go.testFlags": [
+    "-v"
+  ],
   "go.toolsGopath": "/go",
   "go.alternateTools": {
     "go-langserver": "gopls"

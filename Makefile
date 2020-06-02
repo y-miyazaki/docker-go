@@ -85,17 +85,17 @@ upload-aws:
 #@$$(aws ecr get-login --no-include-email --region $(REGION) $(PROFILE))
 # CLIv2
 	aws ecr get-login-password --region $(AWS_REGION) | docker login --username AWS --password-stdin https://$(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com
-	@docker tag $(APP_IMAGE):$(TAG) $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(REPOSITORY_NAME):$(TAG)
-	@docker push $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(REPOSITORY_NAME):$(TAG)
+	docker tag $(APP_IMAGE):$(TAG) $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(REPOSITORY_NAME):$(TAG)
+	docker push $(AWS_ID).dkr.ecr.$(AWS_REGION).amazonaws.com/$(REPOSITORY_NAME):$(TAG)
 
 upload-gcp:
 # see https://cloud.google.com/container-registry/docs/pushing-and-pulling
-	@gcloud auth configure-docker --quiet
-	@docker tag $(APP_IMAGE) gcr.io/$(PROJECT_ID)/$(REPOSITORY_NAME)
-	@docker push gcr.io/$(PROJECT_ID)/$(APP_IMAGE):$(TAG)
+	gcloud auth configure-docker --quiet
+	docker tag $(APP_IMAGE) gcr.io/$(PROJECT_ID)/$(REPOSITORY_NAME)
+	docker push gcr.io/$(PROJECT_ID)/$(APP_IMAGE):$(TAG)
 
 upload-azure:
 # see https://docs.microsoft.com/ja-jp/azure/container-registry/container-registry-get-started-docker-cli
-	@az acr login --name $(REGISTORY)
-	@docker tag $(APP_IMAGE) $(REGISTORY).azurecr.io/$(REPOSITORY_NAME)
-	@docker push $(REGISTORY).azurecr.io/$(APP_IMAGE):$(TAG)
+	az acr login --name $(REGISTORY)
+	docker tag $(APP_IMAGE) $(REGISTORY).azurecr.io/$(REPOSITORY_NAME)
+	docker push $(REGISTORY).azurecr.io/$(APP_IMAGE):$(TAG)
