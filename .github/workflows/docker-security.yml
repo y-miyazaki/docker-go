@@ -1,4 +1,4 @@
-name: Docker Image CI for terraform plan
+name: Docker Image Build for Docker Security
 on: [push, pull_request]
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
       - name: Build Docker Image
         run: |
           CLOUD_COMMANDS_VERSION=$(curl --silent "https://api.github.com/repos/y-miyazaki/cloud-commands/releases/latest" |  grep '"tag_name":' |  sed -E 's/.*"v?([^"]+)".*/\1/' )
-          docker build -f docer/base/build/Dokcerfile --build-args CLOUD_COMMANDS_VERSION=${CLOUD_COMMANDS_VERSION} --build-arg IMAGE_VERSION=alpine -t golang-build:latest .
+          docker build -f docer/base/build/Dokcerfile --build-arg CLOUD_COMMANDS_VERSION=${CLOUD_COMMANDS_VERSION} --build-arg IMAGE_VERSION=alpine -t golang-build:latest .
       - name: Check trivy
         run: |
           trivy -q --severity HIGH,CRITICAL --exit-code 1 golang-build:latest
