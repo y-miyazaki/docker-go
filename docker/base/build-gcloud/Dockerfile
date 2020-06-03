@@ -27,9 +27,7 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo groff && \
     # fix sudo: setrlimit(RLIMIT_CORE): Operation not permitted
     echo "Set disable_coredump false" >> /etc/sudo.conf && \
     # setting commands
-    git clone --depth 1 -b ${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
-    cloud-commands/install.sh && \
-    rm -rf cloud-command && \
+    curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION} && \
     # Install Google Cloud SDK
     apk --no-cache add python3 npm && \
     curl https://sdk.cloud.google.com | bash && \

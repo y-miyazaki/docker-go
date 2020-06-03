@@ -57,9 +57,7 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo groff docker && \
     # Install golangci-lint
     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin 2>&1 && \
     # setting commands
-    git clone --depth 1 -b ${CLOUD_COMMANDS_VERSION} https://github.com/y-miyazaki/cloud-commands.git && \
-    cloud-commands/install.sh && \
-    rm -rf cloud-command && \
+    curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION} && \
     # install glibc compatibility for alpine(need to add it for AWS CLI)
     apk --no-cache add binutils npm && \
     curl -sL https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub -o /etc/apk/keys/sgerrand.rsa.pub && \

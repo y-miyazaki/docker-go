@@ -1,0 +1,4 @@
+# WARN: Avoid latest tag
+DKL-DI-0006
+# INFO: Add HEALTHCHECK instruction to the container image
+CIS-DI-0006

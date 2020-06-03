@@ -28,6 +28,7 @@ jobs:
           sudo dpkg -i pandoc.deb
       - name: Build Docker Image
         run: |
+          export DOCKER_CONTENT_TRUST=1
           CLOUD_COMMANDS_VERSION=$(curl --silent "https://api.github.com/repos/y-miyazaki/cloud-commands/releases/latest" |  grep '"tag_name":' |  sed -E 's/.*"(v?[^"]+)".*/\1/' )
           docker build -f docker/base/build/Dockerfile --build-arg CLOUD_COMMANDS_VERSION=${CLOUD_COMMANDS_VERSION} --build-arg IMAGE_VERSION=alpine -t golang-build:latest .
       - name: Check trivy
