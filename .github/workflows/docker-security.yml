@@ -1,12 +1,14 @@
 name: Docker Image Build for Docker Security
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-        with:
-          ref: master
+      - uses: actions/checkout@v2
       - name: Install trivy
         run: |
           sudo apt-get install wget apt-transport-https gnupg lsb-release
