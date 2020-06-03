@@ -40,7 +40,7 @@ jobs:
         uses: pullreminders/slack-action@v1
         with:
           # "channel"にSlackチャンネルIDを代入
-          args: "{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\", \"text\":\"docker-golang failed build\"}"
+          args: "{\"channel\":\"$secrets.SLACK_CHANNEL_ID\", \"text\":\"docker-golang failed build\"}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       - name: Slack Notification for successed Build.
@@ -48,6 +48,6 @@ jobs:
         uses: pullreminders/slack-action@v1
         with:
           # "channel"にSlackチャンネルIDを代入
-          args: "{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\", \"text\":\"docker-golang success build\"}"
+          args: "{\"channel\":\"$secrets.SLACK_CHANNEL_ID\", \"text\":\"docker-golang success build\"}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
