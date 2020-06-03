@@ -37,7 +37,7 @@ jobs:
           test $(cat dockle.out | grep -e FATAL -e WARN | wc -l) -eq 0
       - name: Slack Notification for failed Build.
         if: failure()
-        uses: pullreminders/slack-action@v1
+        uses: pullreminders/slack-action@master
         with:
           # "channel"にSlackチャンネルIDを代入
           args: '{\"channel\":\"$secrets.SLACK_CHANNEL_ID\", \"text\":\"docker-golang failed build\"}'
@@ -45,7 +45,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       - name: Slack Notification for successed Build.
         if: success()
-        uses: pullreminders/slack-action@v1
+        uses: pullreminders/slack-action@master
         with:
           # "channel"にSlackチャンネルIDを代入
           args: '{\"channel\":\"$secrets.SLACK_CHANNEL_ID\", \"text\":\"docker-golang successed build\"}'
