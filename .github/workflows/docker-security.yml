@@ -29,14 +29,14 @@ jobs:
       - name: Build Docker Image
         run: |
           export DOCKER_CONTENT_TRUST=1
-          CLOUD_COMMANDS_VERSION=$(curl --silent "https://api.github.com/repos/y-miyazaki/cloud-commands/releases/latest" |  grep '"tag_name":' |  sed -E 's/.*"(v?[^"]+)".*/\1/' )
-          docker build -f docker/base/build/Dockerfile --build-arg CLOUD_COMMANDS_VERSION=${CLOUD_COMMANDS_VERSION} --build-arg IMAGE_VERSION=alpine -t golang-build:latest .
+          CLOUD_COMMANDS_VERSION=$(curl --silent "https://api.github.com/repos/y-miyazaki/cloud-commands/releases/latest" |  grep '"tag_name":' |  sed -E 's/.*"(v?[^"]+)".*/\1/' );
+          docker build -f docker/base/build/Dockerfile --build-arg CLOUD_COMMANDS_VERSION=${CLOUD_COMMANDS_VERSION} --build-arg IMAGE_VERSION=alpine -t golang-build:${{github.sha}} .
       - name: Check trivy
         run: |
-          trivy -q --severity HIGH,CRITICAL --exit-code 1 golang-build:latest
+          trivy -q --severity HIGH,CRITICAL --exit-code 1 golang-build:${{github.sha}}
       - name: Check dockle
         run: |
-          dockle golang-build:latest | tee -a dockle.out;
+          dockle golang-build:${{github.sha}} | tee -a dockle.out;
           test $(cat dockle.out | grep -e FATAL -e WARN | wc -l) -eq 0
       - name: Slack Notification for failed Build.
         if: failure()
