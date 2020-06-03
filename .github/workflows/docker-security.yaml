@@ -1,3 +1,4 @@
+# https://help.github.com/ja/actions/reference/workflow-syntax-for-github-actions
 name: Docker Image Build for Docker Security
 on:
   push:
@@ -37,17 +38,29 @@ jobs:
         run: |
           dockle golang-build:${{github.sha}} | tee -a dockle.out;
           test $(cat dockle.out | grep -e FATAL -e WARN | wc -l) -eq 0
-      - name: Slack Notification for failed Build.
-        if: failure()
-        uses: pullreminders/slack-action@master
-        with:
-          args: '{\"channel\":\"C014QRZ384A\", \"text\":\"docker-golang failed build\"}'
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
       - name: Slack Notification for successed Build.
         if: success()
-        uses: pullreminders/slack-action@master
-        with:
-          args: '{\"channel\":\"C014QRZ384A\", \"text\":\"docker-golang successed build\"}'
+        uses: rtCamp/action-slack-notify@v2.0.2
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }}
+          SLACK_COLOR: 'danger'
+          SLACK_ICON: ''
+          SLACK_TITLE: failed build
+          SLACK_MESSAGE: |
+            This Github Actions workflow failed build.
+            https://github.com/${{ GITHUB_RUN_NUMBER }}${{ GITHUB_REPOSITORY }}/${{ GITHUB_RUN_NUMBER }}
+          SLACK_USERNAME: y-miyazaki
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      # - name: Slack Notification for successed Build.
+      #   if: success()
+      #   uses: rtCamp/action-slack-notify@v2.0.2
+      #   env:
+      #     SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }}
+      #     SLACK_COLOR: 'good'
+      #     SLACK_ICON: ''
+      #     SLACK_TITLE: successed build
+      #     SLACK_MESSAGE: |
+      #       This Github Actions workflow successed build.
+      #       https://github.com/${{ GITHUB_RUN_NUMBER }}${{ GITHUB_REPOSITORY }}/${{ GITHUB_RUN_NUMBER }}
+      #     SLACK_USERNAME: y-miyazaki
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
