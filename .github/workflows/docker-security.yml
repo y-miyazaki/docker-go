@@ -1,0 +1,53 @@
+name: Docker Image CI for terraform plan
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          ref: master
+      - name: Install trivy
+        run: |
+          sudo apt-get install wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends trivy
+      - name: Install dockle
+        run: |
+          export VERSION=$(curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" |  grep '"tag_name":' |  sed -E 's/.*"v([^"]+)".*/\1/' );
+          curl -L -o dockle.deb https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.deb;
+          sudo dpkg -i dockle.deb && rm dockle.deb
+      - name: Install pandoc
+        run: |
+          VERSION=$(curl --silent "https://api.github.com/repos/jgm/pandoc/releases/latest" |  grep '"tag_name":' |  sed -E 's/.*"v([^"]+)".*/\1/' );
+          curl -L -o pandoc.deb https://github.com/jgm/pandoc/releases/download/${VERSION}/pandoc-${VERSION}-1-amd64.deb
+          sudo dpkg -i pandoc.deb
+      - name: Build Docker Image
+        run: |
+          CLOUD_COMMANDS_VERSION=$(curl --silent "https://api.github.com/repos/y-miyazaki/cloud-commands/releases/latest" |  grep '"tag_name":' |  sed -E 's/.*"v([^"]+)".*/\1/' )
+          docker build -f docer/base/build/Dokcerfile --build-args CLOUD_COMMANDS_VERSION=${CLOUD_COMMANDS_VERSION} --build-arg IMAGE_VERSION=alpine -t golang-build:latest .
+      - name: Check trivy
+        run: |
+          trivy -q --severity HIGH,CRITICAL --exit-code 1 golang-build:latest
+      - name: Check dockle
+        run: |
+          dockle golang-build:latest | tee -a dockle.out;
+          test $(cat dockle.out | grep -e FATAL -e WARN | wc -l) -eq 0
+      - name: Slack Notification for failed Build.
+        if: failure()
+        uses: pullreminders/slack-action@v1
+        with:
+          # "channel"にSlackチャンネルIDを代入
+          args: "{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\", \"text\":\"docker-golang failed build\"}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Slack Notification for successed Build.
+        if: success()
+        uses: pullreminders/slack-action@v1
+        with:
+          # "channel"にSlackチャンネルIDを代入
+          args: "{\"channel\":\"${{ secrets.SLACK_CHANNEL_ID }}\", \"text\":\"docker-golang success build\"}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
