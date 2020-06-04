@@ -48,7 +48,6 @@ jobs:
           SLACK_TITLE: failed build
           SLACK_MESSAGE: |
             This Github Actions workflow failed build.
-            https://github.com/{{ github.repository }}/${{ github.run_number }}
           SLACK_USERNAME: y-miyazaki
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       - name: Slack Notification for successed Build.
@@ -61,6 +60,5 @@ jobs:
           SLACK_TITLE: successed build
           SLACK_MESSAGE: |
             This Github Actions workflow successed build.
-            https://github.com/{{ github.repository }}/${{ github.run_number }}
           SLACK_USERNAME: y-miyazaki
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
