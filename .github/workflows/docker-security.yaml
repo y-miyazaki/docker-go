@@ -3,8 +3,13 @@ name: Docker Image Build for Docker Security
 on:
   push:
     branches: [ master ]
+    paths:
+      - 'docker/base/build/Dockerfile'
   pull_request:
     branches: [ master ]
+    paths:
+      - 'docker/base/build/Dockerfile'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -38,7 +43,7 @@ jobs:
         run: |
           dockle golang-build:${{github.sha}} | tee -a dockle.out;
           test $(cat dockle.out | grep -e FATAL -e WARN | wc -l) -eq 0
-      - name: Slack Notification for successed Build.
+      - name: Slack Notification for failed Build.
         if: failure()
         uses: rtCamp/action-slack-notify@v2.0.2
         env:
