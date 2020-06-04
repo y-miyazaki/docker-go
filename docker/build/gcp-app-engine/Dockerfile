@@ -3,7 +3,7 @@
 # build image
 #--------------------------------------------------------------
 ARG IMAGE_VERSION=latest
-FROM ymiyazakixyz/golang-build:${IMAGE_VERSION} AS build
+FROM ymiyazakixyz/golang-build-gcp:${IMAGE_VERSION}
 
 #--------------------------------------------------------------
 # ARG
@@ -12,6 +12,8 @@ ARG WORKDIR=/workspace
 ARG GIT_DOMAIN=github.com
 ARG GIT_CLONE_URL
 ARG GIT_BRANCH=master
+# google service account key file path
+ARG GOOGLE_SERVICE_ACCOUNT_KEY_FILE
 
 #--------------------------------------------------------------
 # workdir
@@ -19,7 +21,7 @@ ARG GIT_BRANCH=master
 RUN mkdir -p ${WORKDIR}
 WORKDIR  ${WORKDIR}
 
-# ssh dicrectory
+# clone and go mod download
 RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     echo "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n\tIdentityFile /root/.ssh/id_rsa\n" >> /root/.ssh/config && \
     ssh-keyscan -H ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
@@ -27,24 +29,12 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     # clone
     git clone -b ${GIT_BRANCH} ${GIT_CLONE_URL} . && \
     # dependencies
-    go mod download && \
-    go build -o main && \
-    chmod +x main
+    go mod download
 
-#--------------------------------------------------------------
-# multi-stage image
-#--------------------------------------------------------------
-ARG IMAGE_VERSION_ALPINE=latest
-FROM alpine:${IMAGE_VERSION_ALPINE}
+# create env directory
+RUN mkdir -p /env/
 
-#--------------------------------------------------------------
-# ARG
-#--------------------------------------------------------------
-ARG WORKDIR=/workspace
-
-COPY --from=build ${WORKDIR}/* ${WORKDIR}/
-
-WORKDIR  ${WORKDIR}
+COPY ${GOOGLE_SERVICE_ACCOUNT_KEY_FILE} /env/
 
 ENTRYPOINT []
-CMD ["./main"]
+CMD ["/usr/local/bin/gcpappdeploy"]

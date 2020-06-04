@@ -3,7 +3,7 @@
 # build image
 #--------------------------------------------------------------
 ARG IMAGE_VERSION=latest
-FROM ymiyazakixyz/golang-build:${IMAGE_VERSION}
+FROM ymiyazakixyz/golang-build:${IMAGE_VERSION} AS build
 
 #--------------------------------------------------------------
 # ARG
@@ -12,8 +12,6 @@ ARG WORKDIR=/workspace
 ARG GIT_DOMAIN=github.com
 ARG GIT_CLONE_URL
 ARG GIT_BRANCH=master
-# google service account key file path
-ARG GOOGLE_SERVICE_ACCOUNT_KEY_FILE
 
 #--------------------------------------------------------------
 # workdir
@@ -21,15 +19,7 @@ ARG GOOGLE_SERVICE_ACCOUNT_KEY_FILE
 RUN mkdir -p ${WORKDIR}
 WORKDIR  ${WORKDIR}
 
-#--------------------------------------------------------------
-# Install Google Cloud SDK
-#--------------------------------------------------------------
-RUN apk add --no-cache python && \
-    curl https://sdk.cloud.google.com | bash && \
-    $SHELL && \
-    echo "source /root/google-cloud-sdk/path.bash.inc" >> $HOME/.bashrc && \
-    echo "source /root/google-cloud-sdk/completion.bash.inc" >> $HOME/.bashrc
-
+# clone and go mod download
 RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     echo "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n\tIdentityFile /root/.ssh/id_rsa\n" >> /root/.ssh/config && \
     ssh-keyscan -H ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
@@ -37,12 +27,24 @@ RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     # clone
     git clone -b ${GIT_BRANCH} ${GIT_CLONE_URL} . && \
     # dependencies
-    go mod download
+    go mod download && \
+    go build -o main && \
+    chmod +x main
 
-# create env directory
-RUN mkdir -p /env/
+#--------------------------------------------------------------
+# multi-stage image
+#--------------------------------------------------------------
+ARG IMAGE_VERSION_ALPINE=latest
+FROM alpine:${IMAGE_VERSION_ALPINE}
 
-COPY ${GOOGLE_SERVICE_ACCOUNT_KEY_FILE} /env/
+#--------------------------------------------------------------
+# ARG
+#--------------------------------------------------------------
+ARG WORKDIR=/workspace
+
+COPY --from=build ${WORKDIR}/* ${WORKDIR}/
+
+WORKDIR  ${WORKDIR}
 
 ENTRYPOINT []
-CMD ["/usr/local/bin/gcpappdeploy"]
+CMD ["./main"]

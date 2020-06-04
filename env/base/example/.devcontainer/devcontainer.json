@@ -14,11 +14,6 @@
     "streetsidesoftware.code-spell-checker",
     "vscode-icons-team.vscode-icons"
   ],
-  "build": {
-    "args": {
-      "WORKDIR": "/go/src/github.com/y-miyazaki/docker-golang"
-    }
-  },
   "runArgs": [
     "-v",
     "${env:HOME}/workspace/docker-golang:/go/src/github.com/y-miyazaki/docker-golang",

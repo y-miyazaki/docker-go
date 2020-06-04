@@ -14,11 +14,6 @@
     "streetsidesoftware.code-spell-checker",
     "vscode-icons-team.vscode-icons"
   ],
-  "build": {
-    "args": {
-      "WORKDIR": "{your application code docker directory}"
-    }
-  },
   "runArgs": [
     "-v",
     "{your application code directory}:{your application code docker directory}",

@@ -1,5 +1,5 @@
 {
-  "image": "registry.hub.docker.com/ymiyazakixyz/golang-local-aws-sls:1.13.11-alpine",
+  "image": "registry.hub.docker.com/ymiyazakixyz/golang-local-aws:1.13.11-alpine",
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
   },
@@ -14,11 +14,6 @@
     "streetsidesoftware.code-spell-checker",
     "vscode-icons-team.vscode-icons"
   ],
-  "build": {
-    "args": {
-      "WORKDIR": "/go/src/github.com/y-miyazaki/lambda-project"
-    }
-  },
   "runArgs": [
     "-v",
     "${env:HOME}/workspace/lambda-project:/go/src/github.com/y-miyazaki/lambda-project",

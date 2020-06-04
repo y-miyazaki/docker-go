@@ -11,7 +11,3 @@ env/*
 env/*/*
 !env/*/template
 !env/*/example
-docker/build/cloud/gcp/app_engine
-!docker/build/cloud/gcp/app_engine/.env.template
-!docker/build/cloud/gcp/app_engine/.key.template
-!docker/build/cloud/gcp/app_engine/Dockerfile

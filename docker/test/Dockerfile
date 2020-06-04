@@ -19,7 +19,7 @@ ARG GIT_BRANCH=master
 RUN mkdir -p ${WORKDIR}
 WORKDIR  ${WORKDIR}
 
-# ssh dicrectory
+# clone and go mod download
 RUN --mount=type=secret,id=ssh,dst=/root/.ssh/id_rsa \
     echo "Host ${GIT_DOMAIN}\n\tStrictHostKeyChecking no\n\tIdentityFile /root/.ssh/id_rsa\n" >> /root/.ssh/config && \
     ssh-keyscan -H ${GIT_DOMAIN} >> /root/.ssh/known_hosts && \
