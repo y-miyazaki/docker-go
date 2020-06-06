@@ -3,11 +3,20 @@
   "cSpell.language": "en,en-GB",
   "cSpell.userWords": [
     "kubernetes",
+    "kubectl",
     "dockle",
     "trivy",
     "cobertura",
     "bson",
-    "uuid"
+    "uuid",
+    "reviewdog",
+    "shellcheck",
+    "golangci",
+    "urfave",
+    "buildkit",
+    "workdir",
+    "miyazaki",
+    "ymiyazakixyz",
   ],
   "cSpell.ignorePaths": [
     "**/package-lock.json",
@@ -21,8 +30,10 @@
     "**/*.out",
     "**/*.yaml",
     "**/*.yml",
-    "**/*.json",
-    "**/*.go"
+    "**/*.json"
+  ],
+  "cSpell.ignoreRegExpList": [
+    "[０-９Ａ-Ｚａ-ｚぁ-んァ-ヶ亜-熙纊-黑]+"
   ],
   "editor.autoIndent": "full", // オートインデント
   "editor.detectIndentation": false, // インデントの自動判別
@@ -100,6 +111,7 @@
   "go.lintTool": "golangci-lint",
   "go.lintFlags": [
     "--config=${workspaceFolder}/golangci.yaml"
+    // "--fast"
   ],
   // for go coverage and test
   "go.testOnSave": true,

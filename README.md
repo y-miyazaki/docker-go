@@ -1,5 +1,7 @@
 # Various samples for go language
 
+![Docker Image Build for Docker Security](https://github.com/y-miyazaki/docker-golang/workflows/Docker%20Image%20Build%20for%20Docker%20Security/badge.svg?branch=master)
+
 ## Overview
 
 This repository is a collection of Dockerfile, VS Code Remote Development settings, VS Code settings, Go development, and all necessary settings.
