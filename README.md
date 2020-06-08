@@ -8,11 +8,14 @@ This repository is a collection of Dockerfile, VS Code Remote Development settin
 
 ## Description
 
-## settings.json for VS CODE
+## settings.json and .editorconfig for VS CODE
 
 - [.vscode/settings.json](.vscode/settings.json)  
 The following files basically manage the settings required for VS CODE.  
 Color settings, font size, etc. are your preference, so it is better to modify them freely.
+
+https://github.com/y-miyazaki/editor-set/blob/master/.vscode/settings.json
+https://github.com/y-miyazaki/editor-set/blob/master/.editorconfig
 
 
 ## docker for go build and development environment

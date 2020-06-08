@@ -5,6 +5,8 @@ example
 vendor
 docker-golang
 # environment
+.vscode
+.editorconfig
 env/*
 !env/base
 !env/serverless-aws
