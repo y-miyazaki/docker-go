@@ -8,21 +8,31 @@ This repository is a collection of Dockerfile, VS Code Remote Development settin
 
 ## Description
 
-## settings.json and .editorconfig for VS CODE
+## setting for VS CODE
 
-- [.vscode/settings.json](.vscode/settings.json)  
-The following files basically manage the settings required for VS CODE.  
+- [.vscode/settings.json](https://github.com/y-miyazaki/config/blob/master/.vscode/settings.json)  
+I don't manage this repository, This files basically manage the settings required for VS CODE.  
 Color settings, font size, etc. are your preference, so it is better to modify them freely.
 
-https://github.com/y-miyazaki/editor-set/blob/master/.vscode/settings.json
-https://github.com/y-miyazaki/editor-set/blob/master/.editorconfig
+- [.vscode/cspell.json](https://github.com/y-miyazaki/config/blob/master/.vscode/cspell.json)  
+Settings for extensions to prevent misspellings. Although it prevents misspellings in English, various settings are made to respond to spelling such as commands and imports.
+\
+\
+https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
 
+- [.editorconfig](https://github.com/y-miyazaki/config/blob/master/.editorconfig)  
+Since it is not possible to make detailed settings only with VSCODE, editorconfig is used. This setting requires the following extensions.
+\
+\
+https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
 
 ## docker for go build and development environment
 
 - [docker](docker)  
 docker was created for build for go language and local development environment.  
 All docker images themselves are uploaded to [docker hub](https://hub.docker.com/).
+\
+\
 https://hub.docker.com/u/ymiyazakixyz
 
 - [docker/base](docker/base)  
