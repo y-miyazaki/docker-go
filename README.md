@@ -21,7 +21,8 @@ Settings for extensions to prevent misspellings. Although it prevents misspellin
 https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
 
 - [.editorconfig](https://github.com/y-miyazaki/config/blob/master/.editorconfig)  
-Since it is not possible to make detailed settings only with VSCODE, editorconfig is used. This setting requires the following extensions.
+Since it is not possible to make detailed settings for each extension only with VSCODE settings.json, .editorconfig is used.  
+This setting requires the following extensions.
 \
 \
 https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig
