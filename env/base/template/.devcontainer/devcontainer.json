@@ -1,32 +1,32 @@
 {
-  "image": "registry.hub.docker.com/ymiyazakixyz/golang-local:1.13.11-alpine",
-  "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
-  },
-  "extensions": [
-    "ms-vscode.go",
-    "ms-azuretools.vscode-docker",
-    "coenraads.bracket-pair-colorizer-2",
-    "eamodio.gitlens",
-    "editorconfig.editorconfig",
-    "esbenp.prettier-vscode",
-    "ibm.output-colorizer",
-    "streetsidesoftware.code-spell-checker",
-    "vscode-icons-team.vscode-icons"
-  ],
-  "runArgs": [
-    "-v",
-    "{your application code directory}:{your application code docker directory}",
-    "-v",
-    "{your private key file}:/root/.ssh/id_rsa",
-    "-v",
-    "${env:HOME}/.gitconfig:/root/.gitconfig",
-    "-v",
-    "${env:HOME}/.ssh/config:/root/.ssh/config",
-    "-v",
-    "/var/run/docker.sock:/var/run/docker.sock",
-    "--env-file=.env"
-  ],
-  "workspaceFolder": "{your application code docker directory}",
-  "overrideCommand": false
+    "image": "registry.hub.docker.com/ymiyazakixyz/golang-local:1.13.11-alpine",
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+        "golang.go",
+        "ms-azuretools.vscode-docker",
+        "coenraads.bracket-pair-colorizer-2",
+        "eamodio.gitlens",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "ibm.output-colorizer",
+        "streetsidesoftware.code-spell-checker",
+        "vscode-icons-team.vscode-icons"
+    ],
+    "runArgs": [
+        "-v",
+        "{your application code directory}:{your application code docker directory}",
+        "-v",
+        "{your private key file}:/root/.ssh/id_rsa",
+        "-v",
+        "${env:HOME}/.gitconfig:/root/.gitconfig",
+        "-v",
+        "${env:HOME}/.ssh/config:/root/.ssh/config",
+        "-v",
+        "/var/run/docker.sock:/var/run/docker.sock",
+        "--env-file=.env"
+    ],
+    "workspaceFolder": "{your application code docker directory}",
+    "overrideCommand": false
 }
