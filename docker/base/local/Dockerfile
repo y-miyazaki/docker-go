@@ -50,6 +50,8 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo groff docker && \
     github.com/go-swagger/go-swagger/cmd/swagger@latest \
     # fresh for go continuous deploy
     github.com/pilu/fresh@latest \
+    # realize for go continuous deploy
+    github.com/oxequa/realize@latest \
     golang.org/x/tools/gopls@latest \
     # Coverage outputs covertura format.
     github.com/t-yuki/gocover-cobertura@latest 2>&1 && \
