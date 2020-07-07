@@ -1,4 +1,4 @@
-# Various samples for go language
+# Things to check with golang
 
 ## Overview
 Goを利用する際に気をつけることを表形式でリストアップします。  
