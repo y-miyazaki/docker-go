@@ -72,7 +72,11 @@ Goは大文字小文字の差でpackage外部から利用できるか出来な�
 上記のようなものはconfigで定義しましょう。
 
 ## Understanding status codes
-HTTPステータスコードには様々なものがありますが、理解せず適当にレスポンスするとトラブルになります。  
+HTTPステータスコードには様々なものがあります。どの時にどのHTTPステータスコードを返却するかを正確認識すべきです。  
+\
+https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+
+尚、理解せず適当にレスポンスすると利用者とのトラブルになります。
 
 - バリデーションエラーでInternal Server Error(500)を返す。  
 これはValidationエラーでよくやりがちなミスですがデータのパースに失敗した場合に、何故かInternal Server Error(500)を返し、サーバエラーとしてログ監視でトラブルになるパターンです。  
