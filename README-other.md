@@ -35,7 +35,6 @@ go1.11以降からはgo modでdependenciesの解決ができる。depやglide等
 ## Get Log
 ログの表示は標準パッケージより外部のライブラリが優れている。基本的にはlogrusで良いと思うがもっと良いものがあったら[awesome-go#logging](https://github.com/avelino/awesome-go#logging)から探すのも良いでしょう。  
 Logレベルの定義は必ず明確に決めること。適当にERRORレベルを付与すると運用時にトラブルになりやすい。  
-\
 - Logrus
 https://github.com/Sirupsen/logrus
 - LogLevel(log4j)
@@ -43,7 +42,6 @@ https://ja.wikipedia.org/wiki/Log4j
 
 ## Routers
 Goを利用する場合には必ず利用するというべきルーティング(URLのマッピングをしてくれる)だが、以下のをお勧めする。基本的には軽量・速度の速さ・メモリアロケートの少なさ・依存関係の少ないものを選ぶべき。  
-\
 - https://github.com/gin-gonic/gin  
 処理速度の速さ、メモリアロケートの少なさも際立っている。若干依存関係がある。
 - https://github.com/go-chi/chi  
