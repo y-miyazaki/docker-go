@@ -22,7 +22,7 @@ ENV GO111MODULE=auto
 #--------------------------------------------------------------
 # Install dependent packages
 #--------------------------------------------------------------
-RUN apk add --no-cache make git zip bash openssh curl gcc sudo groff docker && \
+RUN apk add --no-cache make git zip bash openssh curl gcc sudo jq groff docker && \
     # fix sudo: setrlimit(RLIMIT_CORE): Operation not permitted
     echo "Set disable_coredump false" >> /etc/sudo.conf && \
     GO111MODULE=on go get -v \
@@ -50,11 +50,11 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo groff docker && \
     github.com/go-swagger/go-swagger/cmd/swagger@latest \
     # fresh for go continuous deploy
     github.com/pilu/fresh@latest \
-    # realize for go continuous deploy
-    github.com/oxequa/realize@latest \
     golang.org/x/tools/gopls@latest \
     # Coverage outputs covertura format.
     github.com/t-yuki/gocover-cobertura@latest 2>&1 && \
+    # realize for go continuous deploy
+    GO111MODULE=off go get -v github.com/oxequa/realize && \
     # Install golangci-lint
     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin 2>&1 && \
     # setting commands

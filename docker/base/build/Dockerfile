@@ -22,7 +22,7 @@ ENV GO111MODULE=auto
 #--------------------------------------------------------------
 # Install dependent packages
 #--------------------------------------------------------------
-RUN apk add --no-cache make git zip bash openssh curl gcc groff && \
+RUN apk add --no-cache make git zip bash openssh curl gcc jq groff && \
     # setting commands
     curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION}
 
