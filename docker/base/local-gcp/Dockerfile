@@ -25,8 +25,10 @@ ENV CLOUDSDK_PYTHON=python3
 #--------------------------------------------------------------
 RUN apk add --no-cache make git zip bash openssh curl gcc sudo jq groff docker && \
     # fix sudo: setrlimit(RLIMIT_CORE): Operation not permitted
-    echo "Set disable_coredump false" >> /etc/sudo.conf && \
-    GO111MODULE=on go get -v \
+    echo "Set disable_coredump false" >> /etc/sudo.conf
+RUN GO111MODULE=on go get -v \
+    golang.org/x/tools/gopls@latest
+RUN GO111MODULE=on go get -v \
     honnef.co/go/tools/...@latest \
     golang.org/x/tools/cmd/gorename@latest \
     golang.org/x/tools/cmd/goimports@latest \
@@ -51,7 +53,6 @@ RUN apk add --no-cache make git zip bash openssh curl gcc sudo jq groff docker &
     github.com/go-swagger/go-swagger/cmd/swagger@latest \
     # fresh for go continuous deploy
     github.com/pilu/fresh@latest \
-    golang.org/x/tools/gopls@latest \
     # Coverage outputs covertura format.
     github.com/t-yuki/gocover-cobertura@latest 2>&1 && \
     # realize for go continuous deploy
