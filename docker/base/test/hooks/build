@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu
 
+CLOUD_COMMANDS_VERSION=$(curl --silent "https://api.github.com/repos/y-miyazaki/cloud-commands/releases/latest" |  grep '"tag_name":' |  sed -E 's/.*"(v?[^"]+)".*/\1/' )
+
 if [ "$DOCKER_TAG" == "latest" ]; then
     docker build -t ${IMAGE_NAME} --build-arg CLOUD_COMMANDS_VERSION=${CLOUD_COMMANDS_VERSION} .
 else
