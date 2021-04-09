@@ -23,7 +23,7 @@ ENV CLOUDSDK_PYTHON=python3
 #--------------------------------------------------------------
 # Install dependent packages
 #--------------------------------------------------------------
-RUN apk add --no-cache make git zip bash openssh curl gcc sudo jq groff docker && \
+RUN apk add --no-cache make git zip bash openssh curl gcc sudo jq groff docker python3 python3-dev py3-pip && \
     # fix sudo: setrlimit(RLIMIT_CORE): Operation not permitted
     echo "Set disable_coredump false" >> /etc/sudo.conf
 RUN GO111MODULE=on go get -v \
@@ -59,6 +59,8 @@ RUN GO111MODULE=on go get -v \
     GO111MODULE=off go get -v github.com/oxequa/realize && \
     # Install golangci-lint
     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin 2>&1 && \
+    # Install pre-commit
+    pip3 install pre-commit --ignore-installed distlib && \
     # setting commands
     curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION} && \
     # Install Google Cloud SDK

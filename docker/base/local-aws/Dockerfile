@@ -23,7 +23,7 @@ ENV GO111MODULE=auto
 #--------------------------------------------------------------
 # Install dependent packages
 #--------------------------------------------------------------
-RUN apk add --no-cache make git zip bash openssh curl gcc sudo jq groff docker && \
+RUN apk add --no-cache make git zip bash openssh curl gcc sudo jq groff docker python3 python3-dev py3-pip && \
     # fix sudo: setrlimit(RLIMIT_CORE): Operation not permitted
     echo "Set disable_coredump false" >> /etc/sudo.conf
 RUN GO111MODULE=on go get -v \
@@ -79,7 +79,9 @@ RUN GO111MODULE=on go get -v \
     rm glibc-bin-${GLIBC_VER}.apk && \
     # Install Serverless Fremework
     npm install -g try-thread-sleep && \
-    npm install -g serverless --ignore-scripts spawn-sync
+    npm install -g serverless --ignore-scripts spawn-sync && \
+    # Install pre-commit
+    pip3 install pre-commit --ignore-installed distlib
 
 ENTRYPOINT []
 CMD ["/usr/local/bin/awsdockercmd"]
