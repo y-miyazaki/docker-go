@@ -1,13 +1,12 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-ARG IMAGE_VERSION=alpine
-FROM golang:${IMAGE_VERSION}
+FROM golang:alpine
 
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG CLOUD_COMMANDS_VERSION
+ARG CLOUD_COMMANDS_VERSION=v0.7.1
 
 #--------------------------------------------------------------
 # ENV
@@ -22,7 +21,8 @@ ENV GO111MODULE=auto
 #--------------------------------------------------------------
 # Install dependent packages
 #--------------------------------------------------------------
-RUN apk add --no-cache make git zip bash openssh curl gcc jq groff && \
+RUN apk update && \
+    apk add --no-cache make bash openssh openssl git tar curl zip jq groff gcc && \
     # setting commands
     curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION}
 

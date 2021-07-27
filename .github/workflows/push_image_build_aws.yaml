@@ -1,0 +1,40 @@
+# https://docs.github.com/ja/packages/working-with-a-github-packages-registry/working-with-the-container-registry
+name: Publish Docker image for build-aws
+on:
+  release:
+    types: [published]
+  push:
+    branches:
+      - "master"
+    paths:
+      - "docker/base/build-aws/Dockerfile"
+jobs:
+  push_to_registry:
+    env:
+      file: ./docker/base/build-aws/Dockerfile
+      image: go-build-aws
+      tag: latest
+      username: ${{ github.repository_owner }}
+      password: ${{ secrets.CR_PAT }}
+    name: Push Docker image to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      # - name: Check docker security
+      #   uses: ./.github/actions/check-docker-security
+      #   with:
+      #     file: ${{ env.file }}
+      - name: Login to GHCR
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ env.username }}
+          password: ${{ env.password }}
+      - name: Push to GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          file: ${{ env.file }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:${{ env.tag }}

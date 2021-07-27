@@ -1,13 +1,12 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-ARG IMAGE_VERSION=alpine
-FROM golang:${IMAGE_VERSION}
+FROM golang:alpine
 
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG CLOUD_COMMANDS_VERSION
+ARG CLOUD_COMMANDS_VERSION=v0.7.1
 
 #--------------------------------------------------------------
 # ENV
@@ -22,12 +21,20 @@ ENV GO111MODULE=auto
 #--------------------------------------------------------------
 # Install dependent packages
 #--------------------------------------------------------------
-RUN apk add --no-cache make git zip bash openssh curl gcc sudo jq groff docker python3 python3-dev py3-pip && \
-    # fix sudo: setrlimit(RLIMIT_CORE): Operation not permitted
-    # echo "Set disable_coredump false" >> /etc/sudo.conf && \
-    echo "Set disable_coredump false" >> /etc/sudo.conf
+RUN apk update && \
+    apk add --no-cache make bash openssh openssl git tar curl zip jq groff gcc docker npm python3 python3-dev py3-pip && \
+    # setting commands
+    curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION} && \
+    # Install pre-commit
+    pip3 install pre-commit --ignore-installed distlib && \
+    # Install gitleaks
+    curl -sLO https://github.com/zricethezav/gitleaks/releases/download/$(curl -s https://api.github.com/repos/zricethezav/gitleaks/releases/latest | grep tag_name | cut -d '"' -f 4)/gitleaks-linux-amd64 && \
+    chmod +x gitleaks-linux-amd64 && \
+    mv gitleaks-linux-amd64 /usr/local/bin/gitleaks
+
 RUN GO111MODULE=on go get -v \
     golang.org/x/tools/gopls@latest
+
 RUN GO111MODULE=on go get -v \
     honnef.co/go/tools/...@latest \
     golang.org/x/tools/cmd/gorename@latest \
@@ -58,11 +65,7 @@ RUN GO111MODULE=on go get -v \
     # realize for go continuous deploy
     GO111MODULE=off go get -v github.com/oxequa/realize && \
     # Install golangci-lint
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin 2>&1 && \
-    # Install pre-commit
-    pip3 install pre-commit --ignore-installed distlib && \
-    # setting commands
-    curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION}
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin 2>&1
 
 ENTRYPOINT []
 CMD ["/usr/local/bin/godockercmd"]
