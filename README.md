@@ -4,7 +4,7 @@
 
 ## Overview
 
-This repository is a collection of Dockerfile, VS Code Remote Development settings, VS Code settings, Go development, and all necessary settings.
+Docker is used as the environment for running Go. We manage the Dockerfile for this and upload it to the Github Container Registry. Docker images in the Github Container Registry can be used as build and development environments.
 
 ## Description for Docker Image
 
