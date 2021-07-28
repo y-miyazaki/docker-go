@@ -1,29 +1,29 @@
 {
-    "image": "registry.hub.docker.com/ymiyazakixyz/golang-local-aws:1.14.4-alpine",
-    "extensions": [
-        "golang.go",
-        "ms-azuretools.vscode-docker",
-        "coenraads.bracket-pair-colorizer-2",
-        "eamodio.gitlens",
-        "editorconfig.editorconfig",
-        "esbenp.prettier-vscode",
-        "ibm.output-colorizer",
-        "streetsidesoftware.code-spell-checker",
-        "vscode-icons-team.vscode-icons"
-    ],
-    "runArgs": [
-        "-v",
-        "${env:HOME}/workspace/lambda-project:/go/src/github.com/y-miyazaki/lambda-project",
-        "-v",
-        "${env:HOME}/.ssh/id_rsa:/root/.ssh/id_rsa",
-        "-v",
-        "${env:HOME}/.gitconfig:/root/.gitconfig",
-        "-v",
-        "${env:HOME}/.ssh/config:/root/.ssh/config",
-        "-v",
-        "/var/run/docker.sock:/var/run/docker.sock",
-        "--env-file=.env"
-    ],
-    "workspaceFolder": "/go/src/github.com/y-miyazaki/lambda-project",
-    "overrideCommand": false
+  "image": "ghcr.io/y-miyazaki/go-local-aws:latest",
+  "extensions": [
+    "golang.go",
+    "ms-azuretools.vscode-docker",
+    "coenraads.bracket-pair-colorizer-2",
+    "eamodio.gitlens",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "ibm.output-colorizer",
+    "streetsidesoftware.code-spell-checker",
+    "vscode-icons-team.vscode-icons"
+  ],
+  "runArgs": [
+    "-v",
+    "${env:HOME}/workspace/lambda-project:/go/src/github.com/y-miyazaki/lambda-project",
+    "-v",
+    "${env:HOME}/.ssh/id_rsa:/root/.ssh/id_rsa",
+    "-v",
+    "${env:HOME}/.gitconfig:/root/.gitconfig",
+    "-v",
+    "${env:HOME}/.ssh/config:/root/.ssh/config",
+    "-v",
+    "/var/run/docker.sock:/var/run/docker.sock",
+    "--env-file=.env"
+  ],
+  "workspaceFolder": "/go/src/github.com/y-miyazaki/lambda-project",
+  "overrideCommand": false
 }

@@ -24,11 +24,13 @@ ENV CLOUDSDK_PYTHON=python3
 #--------------------------------------------------------------
 RUN apk update && \
     apk add --no-cache make bash openssh openssl git tar curl zip jq groff gcc npm && \
+    # setting commands
+    curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION} && \
+    # Install gvm
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) && \
     # Install Serverless Fremework
     npm install -g try-thread-sleep && \
     npm install -g serverless --ignore-scripts spawn-sync && \
-    # setting commands
-    curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION} && \
     # Install Google Cloud SDK
     apk --no-cache add python3 && \
     curl https://sdk.cloud.google.com | bash && \

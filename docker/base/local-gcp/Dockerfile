@@ -32,6 +32,8 @@ RUN apk update && \
     curl -sLO https://github.com/zricethezav/gitleaks/releases/download/$(curl -s https://api.github.com/repos/zricethezav/gitleaks/releases/latest | grep tag_name | cut -d '"' -f 4)/gitleaks-linux-amd64 && \
     chmod +x gitleaks-linux-amd64 && \
     mv gitleaks-linux-amd64 /usr/local/bin/gitleaks && \
+    # Install gvm
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) && \
     # Install Serverless Fremework
     npm install -g try-thread-sleep && \
     npm install -g serverless --ignore-scripts spawn-sync && \

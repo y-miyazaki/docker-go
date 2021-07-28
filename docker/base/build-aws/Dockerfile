@@ -40,6 +40,8 @@ RUN apk update && \
     apk add --no-cache make bash openssh openssl git tar curl zip jq groff gcc npm && \
     # setting commands
     curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION} && \
+    # Install gvm
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) && \
     # Install Serverless Fremework
     npm install -g try-thread-sleep && \
     npm install -g serverless --ignore-scripts spawn-sync && \
@@ -58,7 +60,9 @@ RUN apk update && \
     # remove glibc files.
     apk --no-cache del binutils && \
     rm glibc-${GLIBC_VER}.apk && \
-    rm glibc-bin-${GLIBC_VER}.apk
+    rm glibc-bin-${GLIBC_VER}.apk && \
+    # Install gvm
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 
 ENTRYPOINT []
 CMD []

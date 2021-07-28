@@ -30,7 +30,9 @@ RUN apk update && \
     # Install gitleaks
     curl -sLO https://github.com/zricethezav/gitleaks/releases/download/$(curl -s https://api.github.com/repos/zricethezav/gitleaks/releases/latest | grep tag_name | cut -d '"' -f 4)/gitleaks-linux-amd64 && \
     chmod +x gitleaks-linux-amd64 && \
-    mv gitleaks-linux-amd64 /usr/local/bin/gitleaks
+    mv gitleaks-linux-amd64 /usr/local/bin/gitleaks && \
+    # Install gvm
+    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 
 RUN GO111MODULE=on go get -v \
     golang.org/x/tools/gopls@latest
