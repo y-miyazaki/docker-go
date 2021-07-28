@@ -29,10 +29,7 @@ This repository is a collection of Dockerfile, VS Code Remote Development settin
 
 - [docker](docker)  
   docker was created for build for go language and local development environment.  
-  All docker images themselves are uploaded to [docker hub](https://hub.docker.com/).
-  \
-  \
-  https://hub.docker.com/u/ymiyazakixyz
+  All docker images themselves are uploaded to Github Container Registry.
 
 - [docker/base](docker/base)  
   There is a base image Dockerfile mainly for build, local development, and test.
