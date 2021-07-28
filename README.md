@@ -28,3 +28,14 @@ Docker is used as the environment for running Go. We manage the Dockerfile for t
 - [ghcr.io/y-miyazaki/go-local-gcp](https://github.com/y-miyazaki/docker-golang/pkgs/container/go-local-gcp)  
   An environment for local development.  
   Mainly pre-commit/gitleaks/gcloud/go libraries commands are installed.
+
+## About go version management
+
+On the Docker image, you can install and use Go by specifying the version with the gvm command already installed.
+
+```bash
+$ source "${HOME}"/.gvm/scripts/gvm
+$ gvm install "gox.x.x" -B
+$ gvm use "gox.x.x" --default
+$ go version
+```
