@@ -6,7 +6,6 @@ FROM golang:alpine
 #--------------------------------------------------------------
 # ARG
 #--------------------------------------------------------------
-ARG CLOUD_COMMANDS_VERSION=v0.7.1
 ARG GLIBC_VER=2.31-r0
 
 #--------------------------------------------------------------
@@ -25,7 +24,7 @@ ENV GO111MODULE=auto
 RUN apk update && \
     apk add --no-cache make bash openssh openssl git tar curl zip jq groff gcc docker npm python3 python3-dev py3-pip && \
     # setting commands
-    curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION} && \
+    curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
     # Install pre-commit
     pip3 install pre-commit --ignore-installed distlib && \
     # Install gitleaks
@@ -33,7 +32,7 @@ RUN apk update && \
     chmod +x gitleaks-linux-amd64 && \
     mv gitleaks-linux-amd64 /usr/local/bin/gitleaks && \
     # Install gvm
-    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer) && \
+    curl -sSL https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash -s && \
     # Install Serverless Fremework
     npm install -g try-thread-sleep && \
     npm install -g serverless --ignore-scripts spawn-sync && \

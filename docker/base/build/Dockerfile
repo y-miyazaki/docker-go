@@ -4,11 +4,6 @@
 FROM golang:alpine
 
 #--------------------------------------------------------------
-# ARG
-#--------------------------------------------------------------
-ARG CLOUD_COMMANDS_VERSION=v0.7.1
-
-#--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
 # for go test
@@ -24,8 +19,9 @@ ENV GO111MODULE=auto
 RUN apk update && \
     apk add --no-cache make bash openssh openssl git tar curl zip jq groff gcc && \
     # setting commands
-    curl -sSfL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s -- ${CLOUD_COMMANDS_VERSION} && \
+    curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
     # Install gvm
-    bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+    curl -sSL https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash -s
+
 ENTRYPOINT []
 CMD []
