@@ -6,7 +6,6 @@ vendor
 docker-go
 # environment
 .vscode
-.editorconfig
 env/*
 !env/base
 !env/serverless-aws
