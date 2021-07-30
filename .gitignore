@@ -3,7 +3,7 @@ tmp
 coverage
 example
 vendor
-docker-golang
+docker-go
 # environment
 .vscode
 .editorconfig

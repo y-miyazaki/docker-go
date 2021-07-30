@@ -13,7 +13,7 @@
   ],
   "runArgs": [
     "-v",
-    "${env:HOME}/workspace/docker-golang:/go/src/github.com/y-miyazaki/docker-golang",
+    "${env:HOME}/workspace/docker-go:/go/src/github.com/y-miyazaki/docker-go",
     "-v",
     "${env:HOME}/.ssh:/root/.ssh",
     "-v",
@@ -22,6 +22,6 @@
     "/var/run/docker.sock:/var/run/docker.sock",
     "--env-file=.env"
   ],
-  "workspaceFolder": "/go/src/github.com/y-miyazaki/docker-golang",
+  "workspaceFolder": "/go/src/github.com/y-miyazaki/docker-go",
   "overrideCommand": false
 }
