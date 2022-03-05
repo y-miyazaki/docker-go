@@ -77,6 +77,8 @@ RUN GO111MODULE=on go get -v \
     github.com/fatih/gomodifytags@latest \
     github.com/mgechev/revive@latest \
     github.com/go-delve/delve@latest \
+    # generate mock
+    github.com/golang/mock/mockgen@latest \
     # go swagger tool
     github.com/go-swagger/go-swagger/cmd/swagger@latest \
     # fresh for go continuous deploy
