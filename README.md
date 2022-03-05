@@ -39,3 +39,64 @@ $ gvm install "gox.x.x" -B
 $ gvm use "gox.x.x" --default
 $ go version
 ```
+
+# List of tools
+
+The following is a list of tools in the Docker Image to be used for local development.
+
+- [ghcr.io/y-miyazaki/go-local](https://github.com/y-miyazaki/docker-go/pkgs/container/go-local)
+- [ghcr.io/y-miyazaki/go-local-aws](https://github.com/y-miyazaki/docker-go/pkgs/container/go-local-aws)
+- [ghcr.io/y-miyazaki/go-local-gcp](https://github.com/y-miyazaki/docker-go/pkgs/container/go-local-gcp)
+
+## Tool
+
+- gvm
+  https://github.com/moovweb/gvm
+- gomock
+  https://github.com/golang/mock
+- Fresh
+  https://github.com/gravityblast/fresh
+- Realize
+  https://github.com/oxequa/realize
+- gocover-covertura
+  https://github.com/t-yuki/gocover-cobertura
+- golangci-lint
+  https://github.com/golangci/golangci-lint
+- gorename
+  https://golang.org/x/tools/cmd/gorename
+- goimports
+  https://golang.org/x/tools/cmd/goimports
+- guru
+  https://golang.org/x/tools/cmd/guru
+- golint
+  https://golang.org/x/lint/golint
+- gocode
+  https://github.com/stamblerre/gocode
+- gotest
+  https://github.com/cweill/gotests
+- goplay
+  https://github.com/haya14busa/goplay/cmd/goplay
+- goreturns
+  https://github.com/sqs/goreturns
+- impl
+  https://github.com/josharian/impl
+- fillstruct
+  https://github.com/davidrjenni/reftools/cmd/fillstruct
+- gopkgs
+  https://github.com/uudashr/gopkgs/v2/cmd/gopkgs
+- go-outline
+  https://github.com/ramya-rao-a/go-outline
+- go-symbols
+  https://github.com/acroca/go-symbols
+- go-doctor
+  https://github.com/godoctor/godoctor
+- go-def
+  https://github.com/rogpeppe/godef
+- gogetdoc
+  https://github.com/zmb3/gogetdoc
+- gomodifytags
+  https://github.com/fatih/gomodifytags
+- revive
+  https://github.com/mgechev/revive
+- delve
+  https://github.com/go-delve/delve
