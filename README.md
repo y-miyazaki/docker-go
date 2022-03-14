@@ -55,7 +55,7 @@ The following is a list of tools in the Docker Image to be used for local develo
   https://github.com/golang/mock
 - Air
   https://github.com/cosmtrek/air
-- Realize
+- Reflex
   https://github.com/cespare/reflex
 - gocover-covertura
   https://github.com/t-yuki/gocover-cobertura
