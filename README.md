@@ -34,7 +34,6 @@ Docker is used as the environment for running Go. We manage the Dockerfile for t
 On the Docker image, you can install and use Go by specifying the version with the gvm command already installed.
 
 ```bash
-$ source "${HOME}"/.gvm/scripts/gvm
 $ gvm install "gox.x.x" -B
 $ gvm use "gox.x.x" --default
 $ go version
@@ -54,10 +53,10 @@ The following is a list of tools in the Docker Image to be used for local develo
   https://github.com/moovweb/gvm
 - gomock
   https://github.com/golang/mock
-- Fresh
-  https://github.com/gravityblast/fresh
+- Air
+  https://github.com/cosmtrek/air
 - Realize
-  https://github.com/oxequa/realize
+  https://github.com/cespare/reflex
 - gocover-covertura
   https://github.com/t-yuki/gocover-cobertura
 - golangci-lint
@@ -70,8 +69,6 @@ The following is a list of tools in the Docker Image to be used for local develo
   https://golang.org/x/tools/cmd/guru
 - golint
   https://golang.org/x/lint/golint
-- gocode
-  https://github.com/stamblerre/gocode
 - gotest
   https://github.com/cweill/gotests
 - goplay
