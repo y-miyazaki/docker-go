@@ -19,6 +19,7 @@ ENV CLOUDSDK_PYTHON=python3
 #--------------------------------------------------------------
 RUN apt update && \
     apt -y install make bash openssl git tar curl zip jq groff gcc docker npm python3 python3-dev python3-pip bison
+
 # setting commands
 RUN curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
     # Install pre-commit
@@ -33,35 +34,8 @@ RUN curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master
     npm install -g try-thread-sleep && \
     npm install -g serverless --ignore-scripts spawn-sync && \
     # Install Google Cloud SDK
-    curl https://sdk.cloud.google.com | bash && \
-    $SHELL && \
-    echo "source /root/google-cloud-sdk/path.bash.inc" >> $HOME/.bashrc && \
-    echo "source /root/google-cloud-sdk/completion.bash.inc" >> $HOME/.bashrc
-
-#--------------------------------------------------------------
-# Install dependent packages
-#--------------------------------------------------------------
-RUN apk update && \
-    apk add --no-cache make bash openssh openssl git tar curl zip jq groff gcc docker npm python3 python3-dev py3-pip bison && \
-    # setting commands
-    curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
-    # Install pre-commit
-    pip3 install pre-commit --ignore-installed distlib && \
-    # Install gitleaks
-    curl -sLO https://github.com/zricethezav/gitleaks/releases/download/$(curl -s https://api.github.com/repos/zricethezav/gitleaks/releases/latest | grep tag_name | cut -d '"' -f 4)/gitleaks-linux-amd64 && \
-    chmod +x gitleaks-linux-amd64 && \
-    mv gitleaks-linux-amd64 /usr/local/bin/gitleaks && \
-    # Install gvm
-    curl -sSL https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash -s && \
-    # Install Serverless Fremework
-    npm install -g try-thread-sleep && \
-    npm install -g serverless --ignore-scripts spawn-sync && \
-    # Install Google Cloud SDK
-    curl https://sdk.cloud.google.com | bash && \
-    $SHELL && \
-    echo "source /root/google-cloud-sdk/path.bash.inc" >> $HOME/.bashrc && \
-    echo "source /root/google-cloud-sdk/completion.bash.inc" >> $HOME/.bashrc
-
+    apt -y install apt-transport-https ca-certificates gnupg && \
+    echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
 
 RUN go install -v golang.org/x/tools/gopls@latest && \
     go install -v golang.org/x/tools/...@latest && \
