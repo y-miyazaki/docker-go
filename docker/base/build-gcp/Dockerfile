@@ -5,6 +5,11 @@ ARG VERSION=alpine
 FROM golang:${VERSION}
 
 #--------------------------------------------------------------
+# ARG
+#--------------------------------------------------------------
+ARG CLOUD_SDK_VERSION=370.0.0
+
+#--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
 # for go
@@ -14,6 +19,8 @@ ENV GOARCH=amd64
 # Update this to "on" or "off" as appropriate
 ENV GO111MODULE=auto
 ENV CLOUDSDK_PYTHON=python3
+ENV CLOUDSDK_PYTHON=python3
+ENV PATH /google-cloud-sdk/bin:$PATH
 
 #--------------------------------------------------------------
 # Install dependent packages
@@ -26,6 +33,9 @@ RUN apk update && \
     npm install -g try-thread-sleep && \
     npm install -g serverless --ignore-scripts spawn-sync && \
     # Install Google Cloud SDK
+    cd / && \
     apk --no-cache add python3 && \
-    curl https://sdk.cloud.google.com > install.sh && \
-    bash install.sh --disable-prompts
+    curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    tar -zxvf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    bash ./google-cloud-sdk/install.sh -q --bash-completion=true --path-update=true --usage-reporting=false
