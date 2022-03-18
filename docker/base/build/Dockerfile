@@ -1,12 +1,13 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-FROM golang:alpine
+ARG VERSION=alpine
+FROM golang:${VERSION}
 
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
-# for go test
+# for go
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
@@ -20,8 +21,3 @@ RUN apk update && \
     apk add --no-cache make bash openssh openssl git tar curl zip jq groff gcc bison && \
     # setting commands
     curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
-    # Install gvm
-    curl -sSL https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash -s
-
-ENTRYPOINT []
-CMD []
