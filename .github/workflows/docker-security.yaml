@@ -4,10 +4,12 @@ on:
   push:
     branches: [ master ]
     paths:
+      - '.github/workflows/docker-security.yaml'
       - 'docker/base/build/Dockerfile'
   pull_request:
     branches: [ master ]
     paths:
+      - '.github/workflows/docker-security.yaml'
       - 'docker/base/build/Dockerfile'
 
 jobs:
