@@ -59,6 +59,3 @@ RUN apk update && \
     apk --no-cache del binutils && \
     rm glibc-${GLIBC_VER}.apk && \
     rm glibc-bin-${GLIBC_VER}.apk
-
-ENTRYPOINT []
-CMD []

@@ -31,6 +31,3 @@ RUN apk update && \
     $SHELL && \
     echo "source /root/google-cloud-sdk/path.bash.inc" >> $HOME/.bashrc && \
     echo "source /root/google-cloud-sdk/completion.bash.inc" >> $HOME/.bashrc
-
-ENTRYPOINT []
-CMD []

@@ -37,7 +37,7 @@ jobs:
           docker build -f docker/base/build/Dockerfile --build-arg IMAGE_VERSION=alpine -t golang-build:${{github.sha}} .
       - name: Check trivy
         run: |
-          trivy -q --severity HIGH,CRITICAL --exit-code 1 golang-build:${{github.sha}}
+          trivy image -q --severity HIGH,CRITICAL --exit-code 1 golang-build:${{github.sha}}
       - name: Check dockle
         run: |
           dockle golang-build:${{github.sha}} | tee -a dockle.out;
