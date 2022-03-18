@@ -27,7 +27,5 @@ RUN apk update && \
     npm install -g serverless --ignore-scripts spawn-sync && \
     # Install Google Cloud SDK
     apk --no-cache add python3 && \
-    curl https://sdk.cloud.google.com | bash && \
-    $SHELL && \
-    echo "source /root/google-cloud-sdk/path.bash.inc" >> $HOME/.bashrc && \
-    echo "source /root/google-cloud-sdk/completion.bash.inc" >> $HOME/.bashrc
+    curl https://sdk.cloud.google.com > install.sh && \
+    bash install.sh --disable-prompts
