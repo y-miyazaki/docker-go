@@ -22,9 +22,9 @@ ENV GO111MODULE=auto
 # Install dependent packages
 #--------------------------------------------------------------
 RUN apt update && \
-    apt -y install make bash openssl git tar curl zip jq groff gcc docker npm python3 python3-dev python3-pip bison
-# setting commands
-RUN curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
+    apt -y install make bash openssl git tar curl zip jq groff gcc docker npm python3 python3-dev python3-pip bison && \
+    # setting commands
+    curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
     # Install pre-commit
     pip3 install pre-commit --ignore-installed distlib && \
     # Install gitleaks
@@ -39,7 +39,8 @@ RUN curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master
     # Install AWS CLI
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
-    ./aws/install
+    ./aws/install && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN go install -v golang.org/x/tools/gopls@latest && \
     go install -v golang.org/x/tools/...@latest && \

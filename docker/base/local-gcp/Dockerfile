@@ -18,10 +18,9 @@ ENV CLOUDSDK_PYTHON=python3
 # Install dependent packages
 #--------------------------------------------------------------
 RUN apt update && \
-    apt -y install make bash openssl git tar curl zip jq groff gcc docker npm python3 python3-dev python3-pip bison
-
-# setting commands
-RUN curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
+    apt -y install make bash openssl git tar curl zip jq groff gcc docker npm python3 python3-dev python3-pip bison && \
+    # setting commands
+    curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
     # Install pre-commit
     pip3 install pre-commit --ignore-installed distlib && \
     # Install gitleaks
@@ -35,7 +34,8 @@ RUN curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master
     npm install -g serverless --ignore-scripts spawn-sync && \
     # Install Google Cloud SDK
     apt -y install apt-transport-https ca-certificates gnupg && \
-    echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
+    echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN go install -v golang.org/x/tools/gopls@latest && \
     go install -v golang.org/x/tools/...@latest && \
