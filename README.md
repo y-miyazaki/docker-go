@@ -1,6 +1,6 @@
 # Docker for Go
 
-![Docker Image Build for Docker Security](https://github.com/y-miyazaki/docker-go/workflows/Docker%20Image%20Build%20for%20Docker%20Security/badge.svg?branch=master)
+<!-- ![Docker Image Build for Docker Security](https://github.com/y-miyazaki/docker-go/workflows/Docker%20Image%20Build%20for%20Docker%20Security/badge.svg?branch=master) -->
 
 ## Overview
 
