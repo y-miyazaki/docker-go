@@ -22,20 +22,6 @@ ENV GO111MODULE=auto
 #--------------------------------------------------------------
 # Install dependent packages
 #--------------------------------------------------------------
-# install glibc compatibility for alpine(need to add it for AWS CLI)
-#--------------------------------------------------------------
-# ENV
-#--------------------------------------------------------------
-# for go test
-ENV CGO_ENABLED=0
-ENV GOOS=linux
-ENV GOARCH=amd64
-# Update this to "on" or "off" as appropriate
-ENV GO111MODULE=auto
-
-#--------------------------------------------------------------
-# Install dependent packages
-#--------------------------------------------------------------
 RUN apk update && \
     apk add --no-cache make bash openssh openssl git tar curl zip jq groff gcc npm bison && \
     # setting commands
