@@ -34,4 +34,4 @@ RUN go install -v github.com/go-swagger/go-swagger/cmd/swagger@latest && \
     # Coverage outputs covertura format.
     go install -v github.com/t-yuki/gocover-cobertura@latest && \
     # Install golangci-lint
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin 2>&1 && \
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin 2>&1
