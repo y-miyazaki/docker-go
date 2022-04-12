@@ -1,3 +1,4 @@
+# syntax = docker/dockerfile:1.0-experimental
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
@@ -27,10 +28,10 @@ RUN apk add --no-cache make git zip bash openssh curl gcc g++ libc-dev && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
-RUN GO111MODULE=on go get -v \
+
     # go swagger tool
-    github.com/go-swagger/go-swagger/cmd/swagger@latest \
+RUN go install -v github.com/go-swagger/go-swagger/cmd/swagger@latest && \
     # Coverage outputs covertura format.
-    github.com/t-yuki/gocover-cobertura@latest 2>&1 && \
+    go install -v github.com/t-yuki/gocover-cobertura@latest && \
     # Install golangci-lint
     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/local/bin 2>&1 && \

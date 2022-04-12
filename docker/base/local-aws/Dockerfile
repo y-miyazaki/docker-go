@@ -1,3 +1,4 @@
+# syntax = docker/dockerfile:1.0-experimental
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
@@ -44,6 +45,10 @@ RUN apt update && \
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     ./aws/install && \
+    # Clean up
+    rm -rf /tmp/tmp.* && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
 RUN go install -v golang.org/x/tools/gopls@latest && \

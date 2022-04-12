@@ -1,3 +1,4 @@
+# syntax = docker/dockerfile:1.0-experimental
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
@@ -32,6 +33,10 @@ RUN apt update && \
     mv gitleaks-linux-amd64 /usr/local/bin/gitleaks && \
     # Install gvm
     curl -sSL https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash -s && \
+    # Clean up
+    rm -rf /tmp/tmp.* && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
 RUN go install -v golang.org/x/tools/gopls@latest && \
