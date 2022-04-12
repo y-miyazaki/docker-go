@@ -1,7 +1,7 @@
 #--------------------------------------------------------------
 # build image
 #--------------------------------------------------------------
-FROM golang:alpine
+FROM golang:1.18rc1-buster
 
 #--------------------------------------------------------------
 # ENV
@@ -18,7 +18,14 @@ ENV GO111MODULE=auto
 #--------------------------------------------------------------
 RUN apk add --no-cache make git zip bash openssh curl gcc g++ libc-dev && \
     # setting commands
-    curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s
+    curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
+    # Install gvm
+    curl -sSL https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer | bash -s && \
+    # Clean up
+    rm -rf /tmp/tmp.* && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN GO111MODULE=on go get -v \
     # go swagger tool
