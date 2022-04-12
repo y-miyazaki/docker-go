@@ -29,7 +29,6 @@ RUN apt update && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
-
     # go swagger tool
 RUN go install -v github.com/go-swagger/go-swagger/cmd/swagger@latest && \
     # Coverage outputs covertura format.
