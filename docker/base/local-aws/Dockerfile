@@ -23,7 +23,7 @@ ENV GO111MODULE=auto
 # Install dependent packages
 #--------------------------------------------------------------
 RUN apt update && \
-    apt -y install make bash openssl git tar curl zip jq groff gcc npm python3 python3-dev python3-pip bison && \
+    apt -y install make openssl git tar curl zip jq groff gcc npm python3 python3-dev python3-pip bison && \
     # Install docker
     curl -fsSL https://get.docker.com -o get-docker.sh && \
     sh ./get-docker.sh && \

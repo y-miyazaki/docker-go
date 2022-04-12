@@ -18,7 +18,7 @@ ENV GO111MODULE=auto
 # Install dependent packages
 #--------------------------------------------------------------
 RUN apt update && \
-    apt -y install make bash openssl git tar curl zip jq groff gcc npm && \
+    apt -y install make openssl git tar curl zip jq groff gcc npm && \
     # setting commands
     curl -sSL https://raw.githubusercontent.com/y-miyazaki/cloud-commands/master/install.sh | sh -s && \
     # Install gvm
