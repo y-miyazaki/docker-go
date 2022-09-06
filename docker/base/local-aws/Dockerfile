@@ -22,8 +22,9 @@ ENV GO111MODULE=auto
 #--------------------------------------------------------------
 # Install dependent packages
 #--------------------------------------------------------------
-RUN apt update && \
-    apt -y install make openssl git tar curl zip jq groff gcc npm bison python3 python3-dev python3-pip && \
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt update && \
+    apt -y install make openssl git tar zip jq groff gcc bison python3 python3-dev python3-pip nodejs && \
     # Install docker
     curl -fsSL https://get.docker.com -o get-docker.sh && \
     sh ./get-docker.sh && \
