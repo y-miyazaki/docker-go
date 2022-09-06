@@ -47,7 +47,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && \
     npm install -g serverless --ignore-scripts spawn-sync && \
     # Install Google Cloud SDK
     cd / && \
-    apk --no-cache add python3 && \
     curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     tar -zxvf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
