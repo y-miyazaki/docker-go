@@ -69,7 +69,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/${{ env.image }}:latest
             ghcr.io/${{ github.repository_owner }}/${{ env.image }}:${{steps.tag.outputs.tag}}
-      - name: Push to GHCR(go-local-aws)
+      - name: Push to GHCR(go-local-gcp)
         uses: docker/build-push-action@v2
         env:
           file: ./docker/base/local-gcp/Dockerfile
@@ -80,7 +80,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/${{ env.image }}:latest
             ghcr.io/${{ github.repository_owner }}/${{ env.image }}:${{steps.tag.outputs.tag}}
-      - name: Push to GHCR(go-local-aws)
+      - name: Push to GHCR(go-local)
         uses: docker/build-push-action@v2
         env:
           file: ./docker/base/local/Dockerfile
