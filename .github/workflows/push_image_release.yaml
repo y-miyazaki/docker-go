@@ -1,0 +1,117 @@
+# https://help.github.com/ja/actions/reference/workflow-syntax-for-github-actions
+name: Release
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  release:
+    env:
+      username: ${{ github.repository_owner }}
+      password: ${{ secrets.CR_PAT }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      # - name: Check docker security
+      #   uses: ./.github/actions/check-docker-security
+      #   with:
+      #     file: ${{ env.file }}
+      - name: Login to GHCR
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ env.username }}
+          password: ${{ env.password }}
+      - name: Push to GHCR(go-build-aws)
+        uses: docker/build-push-action@v2
+        env:
+          file: ./docker/base/build-aws/Dockerfile
+          image: go-build-aws
+        with:
+          file: ${{ env.file }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:${{ github.ref }}
+      - name: Push to GHCR(go-build-gcp)
+        uses: docker/build-push-action@v2
+        env:
+          file: ./docker/base/build-gcp/Dockerfile
+          image: go-build-gcp
+        with:
+          file: ${{ env.file }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:${{ github.ref }}
+      - name: Push to GHCR(go-build)
+        uses: docker/build-push-action@v2
+        env:
+          file: ./docker/base/build/Dockerfile
+          image: go-build
+        with:
+          file: ${{ env.file }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:${{ github.ref }}
+      - name: Push to GHCR(go-local-aws)
+        uses: docker/build-push-action@v2
+        env:
+          file: ./docker/base/local-aws/Dockerfile
+          image: go-local-aws
+        with:
+          file: ${{ env.file }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:${{ github.ref }}
+      - name: Push to GHCR(go-local-aws)
+        uses: docker/build-push-action@v2
+        env:
+          file: ./docker/base/local-gcp/Dockerfile
+          image: go-local-gcp
+        with:
+          file: ${{ env.file }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:${{ github.ref }}
+      - name: Push to GHCR(go-local-aws)
+        uses: docker/build-push-action@v2
+        env:
+          file: ./docker/base/local/Dockerfile
+          image: go-local
+        with:
+          file: ${{ env.file }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ env.image }}:${{ github.ref }}
+      - name: "release: create"
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          # body: |
+          #   Changes in this Release
+          #   - First Change
+          #   - Second Change
+          draft: false
+          prerelease: false
+      - name: "slack: notification for failed build."
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2.0.2
+        env:
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID }}
+          SLACK_COLOR: "danger"
+          SLACK_ICON: ""
+          SLACK_TITLE: Failed release build
+          SLACK_MESSAGE: |
+            This Github Actions workflow failed release build.
+          SLACK_USERNAME: github-notification
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
