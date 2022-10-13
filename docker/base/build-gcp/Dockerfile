@@ -12,13 +12,11 @@ ARG CLOUD_SDK_VERSION=370.0.0
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
-# for go
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
-# Update this to "on" or "off" as appropriate
 ENV GO111MODULE=auto
-ENV CLOUDSDK_PYTHON=python3
+ENV GOPATH=/go
 ENV CLOUDSDK_PYTHON=python3
 ENV PATH /google-cloud-sdk/bin:$PATH
 

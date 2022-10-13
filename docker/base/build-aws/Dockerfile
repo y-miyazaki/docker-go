@@ -12,12 +12,11 @@ ARG GLIBC_VER=2.31-r0
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
-# for go
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
-# Update this to "on" or "off" as appropriate
 ENV GO111MODULE=auto
+ENV GOPATH=/go
 
 #--------------------------------------------------------------
 # Install dependent packages

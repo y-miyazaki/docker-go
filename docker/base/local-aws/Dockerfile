@@ -12,12 +12,11 @@ ARG GLIBC_VER=2.31-r0
 #--------------------------------------------------------------
 # ENV
 #--------------------------------------------------------------
-# for go test
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
-# Update this to "on" or "off" as appropriate
 ENV GO111MODULE=auto
+ENV GOPATH=/go
 
 #--------------------------------------------------------------
 # Install dependent packages
@@ -78,6 +77,7 @@ RUN go install -v golang.org/x/tools/gopls@latest && \
     go install -v github.com/golang/mock/mockgen@latest && \
     # go swagger tool
     go install -v github.com/go-swagger/go-swagger/cmd/swagger@latest && \
+    go install -v github.com/swaggo/swag/cmd/swag@latest && \
     # Coverage outputs covertura format.
     go install -v github.com/t-yuki/gocover-cobertura@latest 2>&1 && \
     # Install golangci-lint
