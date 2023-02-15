@@ -3,7 +3,6 @@
   "extensions": [
     "golang.go",
     "ms-azuretools.vscode-docker",
-    "coenraads.bracket-pair-colorizer-2",
     "eamodio.gitlens",
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
